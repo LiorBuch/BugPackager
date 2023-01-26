@@ -33,16 +33,16 @@ class AppMainScreen(Screen):
         path = askdirectory()
         if not len(path) == 0:
             toast(f"Spotweld directory changed to:{path}")
-            if instance.id == "1":
+            if instance == "1":
                 self.software_dir = path
-                self.dir_textfield.text = path
-                if os.path.exists(os.path.join(self.dir_textfield.text, "swd")) and os.path.exists(
-                        os.path.join(self.dir_textfield.text, "SpotWeld NG")):
-                    self.remove_widget(self.dir_textfield_alert)
-            elif instance.id == "2":
+                self.ids.sw_directory_tf.text = path
+                if os.path.exists(os.path.join(self.ids.sw_directory_tf.text, "swd")) and os.path.exists(
+                        os.path.join(self.ids.sw_directory_tf.text, "SpotWeld NG")):
+                    self.remove_widget(self.ids.sw_directory_alert)
+            elif instance == "2":
                 self.output_dir = path
-                self.out_textfield.text = path
-                self.remove_widget(self.dir_output_alert)
+                self.ids.zip_directory_tf.text = path
+                self.remove_widget(self.ids.zip_directory_alert)
 
     def switch_tab(self, *args):
         self.manager.current = "contact_window"
@@ -67,9 +67,6 @@ class AppMainScreen(Screen):
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.contact_screen = None
-        self.ms = None
-        self.sm = None
 
     def build(self):
         pass

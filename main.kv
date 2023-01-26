@@ -1,5 +1,6 @@
 WindowMaster:
     AppMainScreen:
+    ContactWindow:
 
 <AppMainScreen>:
     name: "main_screen"
@@ -7,7 +8,7 @@ WindowMaster:
         id: nav_bar
         MDBottomNavigationItem:
             id: contact_tab
-            on_tab_press: self.switch_tab
+            on_tab_press: root.switch_tab()
             icon: "assets\\icons\\person-icon.png"
 
         MDBottomNavigationItem:
@@ -55,7 +56,7 @@ WindowMaster:
         id: sw_directory_btn
         text: "Choose directory"
         pos_hint: {'x': 0.4, 'y': 0.92}
-        on_press: self.spotweld_dir_choose
+        on_press: root.spotweld_dir_choose("1")
 
     ToolTipIcon:
         id: zip_directory_alert
@@ -69,12 +70,12 @@ WindowMaster:
         id: zip_directory_btn
         text: "Choose directory"
         pos_hint: {'x': 0.4, 'y': 0.82}
-        on_press: self.spotweld_dir_choose
+        on_press: root.spotweld_dir_choose("2")
 
 
     MDRaisedButton:
         id: send_data_btn
         text: "send"
         pos_hint: {'x': 0.9, 'y': 0.2}
-        on_press: self.send_data
+        on_press: root.send_data()
 
