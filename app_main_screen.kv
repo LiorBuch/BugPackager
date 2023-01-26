@@ -1,0 +1,66 @@
+<AppMainScreen>:
+    name: "main_screen"
+
+    MDTextField:
+        id: bug_title_tf
+        hint_text: "Bug Title"
+        helper_text: "Write the main issue title"
+        helper_text_mode: "on_focus"
+        pos_hint: {'x': 0.02, 'y': 0.7}
+        size_hint: 0.3, None
+
+    MDTextField:
+        id: bug_msg_tf
+        hint_text: "Bug Text"
+        helper_text: "Write more details about the issues"
+        helper_text_mode: "on_focus"
+        multiline: True
+        pos_hint: {'x': 0.02, 'y': 0.35}
+        size_hint: 0.7, None
+
+    MDTextField:
+        id: sw_directory_tf
+        hint_text: "Spotweld Main Directory"
+        pos_hint: {'x': 0.02, 'y': 0.9}
+        size_hint: 0.3,None
+
+    ToolTipIcon:
+        id: sw_directory_alert
+        icon: "alert"
+        theme_text_color: "Custom"
+        text_color: 212 / 255, 34 / 255, 34 / 255, 1
+        pos_hint: {'x': 0.35, 'y': 0.93}
+        tooltip_text: "SpotWeld was not found in the directory!"
+
+    MDTextField:
+        id: zip_directory_tf
+        hint_text: "Zip Output Directory"
+        pos_hint: {'x': 0.02, 'y': 0.8}
+        size_hint: 0.3, None
+
+    MDRaisedButton:
+        id: sw_directory_btn
+        text: "Choose directory"
+        pos_hint: {'x': 0.4, 'y': 0.92}
+        on_press: root.spotweld_dir_choose("1")
+
+    ToolTipIcon:
+        id: zip_directory_alert
+        icon: "alert"
+        theme_text_color: "Custom"
+        text_color: 212 / 255, 34 / 255, 34 / 255, 1
+        pos_hint: {'x': 0.35, 'y': 0.83}
+        tooltip_text: "Directory is empty!"
+
+    MDRaisedButton:
+        id: zip_directory_btn
+        text: "Choose directory"
+        pos_hint: {'x': 0.4, 'y': 0.82}
+        on_press: root.spotweld_dir_choose("2")
+
+
+    MDRaisedButton:
+        id: send_data_btn
+        text: "send"
+        pos_hint: {'x': 0.9, 'y': 0.2}
+        on_press: root.send_data()

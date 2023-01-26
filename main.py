@@ -2,6 +2,8 @@ import json
 import os.path
 from tkinter.filedialog import askdirectory
 import zipfile
+
+from kivy.lang import Builder
 from kivymd.toast import toast
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
@@ -28,6 +30,7 @@ class AppMainScreen(Screen):
         super().__init__(**kw)
         self.software_dir = json.load(open("assets\\meta_data.json"))["spotweld_dir"]
         self.output_dir = json.load(open("assets\\meta_data.json"))["output_dir"]
+        Builder.load_file("app_main_screen.kv")
 
     def spotweld_dir_choose(self, instance):
         path = askdirectory()
