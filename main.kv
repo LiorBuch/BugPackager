@@ -1,0 +1,80 @@
+WindowMaster:
+    AppMainScreen:
+
+<AppMainScreen>:
+    name: "main_screen"
+    MDBottomNavigation:
+        id: nav_bar
+        MDBottomNavigationItem:
+            id: contact_tab
+            on_tab_press: self.switch_tab
+            icon: "assets\\icons\\person-icon.png"
+
+        MDBottomNavigationItem:
+            id: advance_packager
+            icon: "package-variant"
+
+        MDBottomNavigationItem:
+            id: simple_pack
+            icon: "package"
+
+    MDTextField:
+        id: bug_title_tf
+        hint_text: "Bug Title"
+        pos_hint: {'x': 0.02, 'y': 0.7}
+        size_hint: 0.3, None
+
+    MDTextField:
+        id: bug_msg_tf
+        hint_text: "Bug Text"
+        multiline: True
+        pos_hint: {'x': 0.02, 'y': 0.35}
+        size_hint: 0.7, None
+
+    MDTextField:
+        id: sw_directory_tf
+        hint_text: "Spotweld Main Directory"
+        pos_hint: {'x': 0.02, 'y': 0.9}
+        size_hint: 0.3,None
+
+    ToolTipIcon:
+        id: sw_directory_alert
+        icon: "alert"
+        theme_text_color: "Custom"
+        text_color: 212 / 255, 34 / 255, 34 / 255, 1
+        pos_hint: {'x': 0.35, 'y': 0.93}
+        tooltip_text: "SpotWeld was not found in the directory!"
+
+    MDTextField:
+        id: zip_directory_tf
+        hint_text: "Zip Output Directory"
+        pos_hint: {'x': 0.02, 'y': 0.8}
+        size_hint: 0.3, None
+
+    MDRaisedButton:
+        id: sw_directory_btn
+        text: "Choose directory"
+        pos_hint: {'x': 0.4, 'y': 0.92}
+        on_press: self.spotweld_dir_choose
+
+    ToolTipIcon:
+        id: zip_directory_alert
+        icon: "alert"
+        theme_text_color: "Custom"
+        text_color: 212 / 255, 34 / 255, 34 / 255, 1
+        pos_hint: {'x': 0.35, 'y': 0.83}
+        tooltip_text: "Directory is empty!"
+
+    MDRaisedButton:
+        id: zip_directory_btn
+        text: "Choose directory"
+        pos_hint: {'x': 0.4, 'y': 0.82}
+        on_press: self.spotweld_dir_choose
+
+
+    MDRaisedButton:
+        id: send_data_btn
+        text: "send"
+        pos_hint: {'x': 0.9, 'y': 0.2}
+        on_press: self.send_data
+
