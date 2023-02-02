@@ -4,6 +4,7 @@ from tkinter.filedialog import askdirectory
 import zipfile
 from kivy.lang import Builder
 from kivy.uix.popup import Popup
+from kivymd.theming import ThemeManager
 from kivymd.toast import toast
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
@@ -37,6 +38,14 @@ class ContactWindow(MDBottomNavigationItem):
         super().__init__(**kw)
         self.name = "contact_window"
         Builder.load_file("contact_screen.kv")
+
+    def switch_theme(self, check_id):
+
+        if check_id == "light_theme_check":
+            MainApp.get_running_app().theme_cls.theme_style = "Light"
+
+        if check_id == "dark_theme_check":
+            MainApp.get_running_app().theme_cls.theme_style = "Dark"
 
 
 class AppMainScreen(MDBottomNavigationItem):
@@ -106,11 +115,28 @@ class AppMainScreen(MDBottomNavigationItem):
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.theme_cls.theme_style = "Light"
-        self.theme_cls.primary_palette = "Blue"
 
     def build(self):
-        pass
+        self.theme_cls.theme_style_switch_animation = True
+        #Todo add "ThemeManager"
+        self.theme_cls.sync_theme_styles()
+
+    def switch_themes(self, uui):
+        if uui == "1":
+            print("lit")
+            self.theme_cls.theme_style = "Light"
+        if uui == "2":
+            print("nig")
+            self.theme_cls.theme_style = "Dark"
+        if uui == "3":
+            self.theme_cls.primary_palette = "Blue"
+            print(self.theme_cls.primary_palette)
+        if uui == "4":
+            self.theme_cls.primary_palette = "Orange"
+            print(self.theme_cls.primary_palette)
+        if uui == "5":
+            self.theme_cls.primary_palette = "DeepPurple"
+            print(self.theme_cls.primary_palette)
 
 
 MainApp().run()

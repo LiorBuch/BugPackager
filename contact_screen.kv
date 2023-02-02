@@ -21,39 +21,50 @@
         size_hint: 0.3,None
 
     MDCheckbox:
-        id: dark_theme_check
-        group: "theme"
-        size_hint: None,None
-        size: "25dp", "25dp"
-        pos_hint: {'center_x': .4, 'center_y': .5}
-
-    MDCheckbox:
         id: light_theme_check
         active: True
+        allow_no_selection: False
         group: "theme"
         size_hint: None,None
         size: "25dp", "25dp"
-        pos_hint: {'center_x': .45, 'center_y': .5}
+        pos_hint: {'center_x': .4, 'center_y': .6}
+        on_press: app.switch_themes("1")
+
+    MDCheckbox:
+        id: dark_theme_check
+        allow_no_selection: False
+        group: "theme"
+        size_hint: None,None
+        size: "25dp", "25dp"
+        pos_hint: {'center_x': .45, 'center_y': .6}
+        on_press: app.switch_themes("2")
+
 
     MDCheckbox:
         id: blue_palette_check
         active: True
+        allow_no_selection: False
         group: "palette"
         size_hint: None,None
         size: "25dp", "25dp"
-        pos_hint: {'center_x': .4, 'center_y': .6}
+        pos_hint: {'center_x': .4, 'center_y': .5}
+        on_press: app.switch_themes("3")
 
     MDCheckbox:
         id: orange_palette_check
+        allow_no_selection: False
         group: "palette"
         size_hint: None,None
         size: "25dp", "25dp"
-        pos_hint: {'center_x': .45, 'center_y': .6}
+        pos_hint: {'center_x': .45, 'center_y': .5}
+        on_press: app.switch_themes("4")
 
     MDCheckbox:
         id: deep_purple_palette_check
+        allow_no_selection: False
         group: "palette"
         size_hint: None,None
         size: "25dp", "25dp"
-        pos_hint: {'center_x': .5, 'center_y': .6}
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        on_press: app.switch_themes("5")
 
