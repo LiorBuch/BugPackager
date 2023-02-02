@@ -1,4 +1,1 @@
-{
-  "spotweld_dir": "no where",
-  "output_dir": "no where"
-}
+{"software": {"spotweld_dir": "no where", "output_dir": "no where"}, "user_data": {"username": "username", "company": "company", "email": "my@email.com"}}

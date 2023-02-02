@@ -1,1 +1,59 @@
 <ContactWindow>:
+    id: contact_tab
+    icon: "account-tie"
+
+    MDTextField:
+        id: user_tf
+        hint_text: "username"
+        pos_hint: {'x':0.01,'y':0.85}
+        size_hint: 0.25,None
+
+    MDTextField:
+        id: company_tf
+        hint_text: "Company"
+        pos_hint: {'x':0.01,'y':0.75}
+        size_hint: 0.25,None
+
+    MDTextField:
+        id: email_tf
+        hint_text: "Email"
+        pos_hint: {'x':0.01,'y':0.65}
+        size_hint: 0.3,None
+
+    MDCheckbox:
+        id: dark_theme_check
+        group: "theme"
+        size_hint: None,None
+        size: "25dp", "25dp"
+        pos_hint: {'center_x': .4, 'center_y': .5}
+
+    MDCheckbox:
+        id: light_theme_check
+        active: True
+        group: "theme"
+        size_hint: None,None
+        size: "25dp", "25dp"
+        pos_hint: {'center_x': .45, 'center_y': .5}
+
+    MDCheckbox:
+        id: blue_palette_check
+        active: True
+        group: "palette"
+        size_hint: None,None
+        size: "25dp", "25dp"
+        pos_hint: {'center_x': .4, 'center_y': .6}
+
+    MDCheckbox:
+        id: orange_palette_check
+        group: "palette"
+        size_hint: None,None
+        size: "25dp", "25dp"
+        pos_hint: {'center_x': .45, 'center_y': .6}
+
+    MDCheckbox:
+        id: deep_purple_palette_check
+        group: "palette"
+        size_hint: None,None
+        size: "25dp", "25dp"
+        pos_hint: {'center_x': .5, 'center_y': .6}
+

@@ -1,5 +1,6 @@
 <AppMainScreen>:
-    name: "main_screen"
+    id: advance_packager
+    icon: "package-variant"
 
     MDTextField:
         id: bug_title_tf
@@ -23,6 +24,7 @@
         hint_text: "Spotweld Main Directory"
         pos_hint: {'x': 0.02, 'y': 0.9}
         size_hint: 0.3,None
+        text : root.software_dir
 
     ToolTipIcon:
         id: sw_directory_alert
@@ -37,8 +39,9 @@
         hint_text: "Zip Output Directory"
         pos_hint: {'x': 0.02, 'y': 0.8}
         size_hint: 0.3, None
+        text : root.output_dir
 
-    MDRaisedButton:
+    MDRectangleFlatButton:
         id: sw_directory_btn
         text: "Choose directory"
         pos_hint: {'x': 0.4, 'y': 0.92}
@@ -52,15 +55,27 @@
         pos_hint: {'x': 0.35, 'y': 0.83}
         tooltip_text: "Directory is empty!"
 
-    MDRaisedButton:
+    MDRectangleFlatButton:
         id: zip_directory_btn
         text: "Choose directory"
         pos_hint: {'x': 0.4, 'y': 0.82}
         on_press: root.spotweld_dir_choose("2")
 
 
-    MDRaisedButton:
+    MDRectangleFlatButton:
         id: send_data_btn
         text: "send"
-        pos_hint: {'x': 0.9, 'y': 0.2}
+        pos_hint: {'x': 0.9, 'y': 0.1}
         on_press: root.send_data()
+
+    MDSwitch:
+        id: advance_switch
+        width: dp(40)
+        pos_hint: {'x': .65,'y': .85}
+        thumb_color_inactive: "grey"
+        on_active: root.remove_advance(self.active)
+
+    MDLabel:
+        id: advance_switch_label
+        text: "Advance Mode"
+        pos_hint: {'x': .73,'y': .395}
