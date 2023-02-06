@@ -1,1 +1,13 @@
-{"software": {"spotweld_dir": "no where", "output_dir": "no where"}, "user_data": {"username": "username", "company": "company", "email": "my@email.com"}}
+{
+  "software": {
+    "spotweld_dir": "C:/Program Files (x86)/ScanMaster/SpotWeld",
+    "output_dir": "C:/Users/liorb/Desktop"
+  },
+  "user_data": {
+    "username": "username",
+    "company": "company",
+    "email": "my@email.com",
+    "palette": "Blue",
+    "theme": "Light"
+  }
+}
