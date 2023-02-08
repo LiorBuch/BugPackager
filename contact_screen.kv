@@ -4,67 +4,78 @@
 
     MDTextField:
         id: user_tf
-        hint_text: "username"
+        icon_left: "account"
+        hint_text: "User"
         pos_hint: {'x':0.01,'y':0.85}
         size_hint: 0.25,None
 
     MDTextField:
         id: company_tf
+        icon_left: "domain"
         hint_text: "Company"
         pos_hint: {'x':0.01,'y':0.75}
         size_hint: 0.25,None
 
     MDTextField:
         id: email_tf
+        icon_left: "email"
         hint_text: "Email"
         pos_hint: {'x':0.01,'y':0.65}
         size_hint: 0.3,None
 
-    MDCheckbox:
-        id: light_theme_check
-        active: True
-        allow_no_selection: False
-        group: "theme"
-        size_hint: None,None
-        size: "25dp", "25dp"
-        pos_hint: {'center_x': .4, 'center_y': .6}
-        on_press: app.switch_themes("1")
+    MDLabel:
+        id: themes_title_lb
+        text: "GUI Themes:"
+        pos_hint: {'x': 0.03,'y': 0.1}
+        font_style: "H6"
 
-    MDCheckbox:
-        id: dark_theme_check
-        allow_no_selection: False
-        group: "theme"
-        size_hint: None,None
-        size: "25dp", "25dp"
-        pos_hint: {'center_x': .45, 'center_y': .6}
-        on_press: app.switch_themes("2")
+    MDRectangleFlatButton:
+        id: save_changes_btn
+        text: "Save"
+        pos_hint: {'x': 0.8,'y': 0.05}
+        on_press:root.save_changes()
 
+    GridLayout:
+        id: check_layout
+        cols: 2
+        rows: 3
+        size_hint: .1,.1
+        pos_hint: {'center_x': .1, 'center_y': .5}
 
-    MDCheckbox:
-        id: blue_palette_check
-        active: True
-        allow_no_selection: False
-        group: "palette"
-        size_hint: None,None
-        size: "25dp", "25dp"
-        pos_hint: {'center_x': .4, 'center_y': .5}
-        on_press: app.switch_themes("3")
+        MDLabel:
+            id: light_theme_lb
+            text: "Light"
 
-    MDCheckbox:
-        id: orange_palette_check
-        allow_no_selection: False
-        group: "palette"
-        size_hint: None,None
-        size: "25dp", "25dp"
-        pos_hint: {'center_x': .45, 'center_y': .5}
-        on_press: app.switch_themes("4")
+        MDCheckbox:
+            id: light_theme_check
+            allow_no_selection: False
+            group: "theme"
+            size_hint: None,None
+            size: "25dp", "25dp"
+            on_press: root.switch_themes("1")
+            on_active: root.ui_flag = True
 
-    MDCheckbox:
-        id: deep_purple_palette_check
-        allow_no_selection: False
-        group: "palette"
-        size_hint: None,None
-        size: "25dp", "25dp"
-        pos_hint: {'center_x': .5, 'center_y': .5}
-        on_press: app.switch_themes("5")
+        MDLabel:
+            id: dark_theme_lb
+            text: "Dark"
 
+        MDCheckbox:
+            id: dark_theme_check
+            allow_no_selection: False
+            group: "theme"
+            size_hint: None,None
+            size: "25dp", "25dp"
+            on_press: root.switch_themes("2")
+            on_active: root.ui_flag = True
+
+        MDLabel:
+            id: dark_purple_theme_lb
+            text: "Dark 2"
+
+        MDCheckbox:
+            id: dark_purple_theme_check
+            allow_no_selection: False
+            group: "theme"
+            size_hint: None,None
+            size: "25dp", "25dp"
+            on_press: root.switch_themes("3")

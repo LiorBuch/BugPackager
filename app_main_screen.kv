@@ -16,7 +16,7 @@
         helper_text: "Write more details about the issues"
         helper_text_mode: "on_focus"
         multiline: True
-        pos_hint: {'x': 0.02, 'y': 0.35}
+        pos_hint: {'x': 0.02, 'y': 0.25}
         size_hint: 0.7, None
 
     MDTextField:
@@ -35,6 +35,7 @@
         pos_hint: {'x': 0.35, 'y': 0.93}
         tooltip_text: "SpotWeld was not found in the directory!"
 
+
     MDTextField:
         id: zip_directory_tf
         hint_text: "Zip Output Directory"
@@ -47,13 +48,13 @@
         id: version_lab
         text: "SW version: "
         pos_hint: {'x': 0.43, 'y': 0.65}
-        size_hint: 0.15, None
+        size_hint: 0.21, None
 
     MDLabel:
         id: sw_sub_lab
         text: "SW Type: "
         pos_hint: {'x': 0.43, 'y': 0.58}
-        size_hint: 0.15, None
+        size_hint: 0.21, None
 
     ToolTipIcon:
         id: zip_directory_alert
