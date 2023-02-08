@@ -1,6 +1,6 @@
 import json
-import multiprocessing
 import os.path
+import time
 from tkinter.filedialog import askdirectory
 import zipfile
 from kivy.clock import Clock
@@ -75,7 +75,7 @@ class ContactWindow(MDBottomNavigationItem):
         write_to_json("assets\\meta_data.json", [["user_data", "company", self.ids.company_tf.text]])
         write_to_json("assets\\meta_data.json", [["user_data", "email", self.ids.email_tf.text]])
         if self.ui_flag:
-            pass
+            process_kill()
 
 
 class AppMainScreen(MDBottomNavigationItem):
@@ -116,8 +116,10 @@ class AppMainScreen(MDBottomNavigationItem):
                     self.sw_type = "ng"
                     self.get_version("SpotWeld NG.exe")
                 self.ids.sw_directory_alert.icon = "check"
+                self.ids.sw_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
             else:
                 self.ids.sw_directory_alert.icon = "alert"
+                self.ids.sw_directory_alert.text_color = 212 / 255, 34 / 255, 34 / 255, 1
                 self.ids.sw_sub_lab.text.join("SW Type:")
                 self.sw_type = "none"
         elif instance == "2":
@@ -127,9 +129,9 @@ class AppMainScreen(MDBottomNavigationItem):
                 toast(f"Zip directory changed to:{path}")
                 write_to_json("assets\\meta_data.json", [("software", "output_dir", path)])
             self.ids.zip_directory_alert.icon = "check"
+            self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
 
     def disable_send(self, *args):
-
         if self.dir_textfield_alert.disabled:
             self.send_btn.set_disabled(True)
 
@@ -182,12 +184,13 @@ class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.title = "Bug Packager"
+        self.kv = Builder.load_file("main_ui.kv")
         self.theme_cls.theme_style_switch_animation = True
         self.theme_cls.theme_style = read_from_json("assets\\meta_data.json", "user_data", "theme")
         self.theme_cls.primary_palette = read_from_json("assets\\meta_data.json", "user_data", "palette")
 
     def build(self):
-        pass
+        return self.kv
 
 
 def write_to_json(file_to_modify, data_list: list):
@@ -203,6 +206,15 @@ def read_from_json(file, where_index, what_index):
     with open(file, "r") as jsonFile:
         data = json.load(jsonFile)
         return data[where_index][what_index]
+
+
+def process_kill():
+    Builder.unload_file("app_main_screen.kv")
+    Builder.unload_file("main_ui.kv")
+    Builder.unload_file("contact_screen.kv")
+    MainApp.get_running_app().stop()
+    Window.clear()
+    MainApp().run()
 
 
 if __name__ == '__main__':
