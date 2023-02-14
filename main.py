@@ -3,23 +3,45 @@ import os.path
 import time
 from tkinter.filedialog import askdirectory
 import zipfile
+
+import win32api
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import partial
+from kivy.uix.popup import Popup
+from kivy.uix.scrollview import ScrollView
 from kivymd.toast import toast
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
 from kivymd.uix.bottomnavigation import MDBottomNavigationItem
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.label import MDIcon
+from kivymd.uix.label import MDIcon, MDLabel
+from kivymd.uix.list import OneLineListItem, OneLineIconListItem, IconLeftWidget, TwoLineListItem
+from kivymd.uix.textfield import MDTextField
 from kivymd.uix.tooltip import MDTooltip
 from win32com.client import Dispatch
+
+DEFAULT_RUN_LIST = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
 
 
 class WindowMaster(ScreenManager):
     pass
+
+
+class ItemLine(OneLineIconListItem):
+    def __init__(self, item, *args, **kwargs):
+        super().__init__(IconLeftWidget(icon="radiobox-blank"), *args, **kwargs)
+        self.text = item
+        self.size_hint = (1, 0.1)
+        self.my_icon = "radiobox-blank"
+
+    def pressed(self):
+        if self.my_icon == "radiobox-blank":
+            self.my_icon = "radiobox-marked"
+        else:
+            self.my_icon = "radiobox-blank"
 
 
 class ToolTipIcon(MDIcon, MDTooltip):
@@ -27,9 +49,14 @@ class ToolTipIcon(MDIcon, MDTooltip):
         super().__init__(*args, **kwargs)
 
 
+class ToolTipLabel(MDLabel, MDTooltip):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class DefiPopup(MDDialog):
-    def __init__(self, msg, **kwargs):
-        super().__init__(**kwargs, buttons=[MDFlatButton(text="close", on_press=lambda x: self.dismiss())])
+    def __init__(self, msg, btn_text="close", **kwargs):
+        super().__init__(**kwargs, buttons=[MDFlatButton(text=btn_text, on_press=lambda x: self.dismiss())])
         self.text = msg
 
 
@@ -87,9 +114,13 @@ class AppMainScreen(MDBottomNavigationItem):
         Builder.load_file("app_main_screen.kv")
         self.error_list = []
         self.run_list = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
+        self.img_path_list = []
         self.sw_type = "none"
+        self.remove_tool_items = False
+        self.remove_tool_images = False
         Clock.schedule_once(partial(self.data_integrity, "1"))
         Clock.schedule_once(partial(self.data_integrity, "2"))
+        Clock.schedule_once(self.fill_list)
 
     def spotweld_dir_choose(self, instance):
         path = askdirectory()
@@ -99,6 +130,60 @@ class AppMainScreen(MDBottomNavigationItem):
             if instance == "2":
                 self.ids.zip_directory_tf.text = path
             self.data_integrity(instance, path=path)
+
+    def fill_list(self, type="all", *args):
+        def remove_me(obj):
+            if self.remove_tool_items:
+                self.ids.run_item_list.remove_widget(obj)
+                self.run_list.remove(obj.text)
+
+            if self.remove_tool_images:
+                self.ids.run_img_list.remove_widget(obj)
+                self.img_path_list.remove(obj.secondary_text)
+
+        if type == "all" or "items":
+            self.ids.run_item_list.clear_widgets()
+            for item in self.run_list:
+                self.ids.run_item_list.add_widget(OneLineListItem(text=item, on_press=remove_me))
+        if type == "all" or "images":
+            self.ids.run_img_list.clear_widgets()
+            for item in self.img_path_list:
+                self.ids.run_img_list.add_widget(
+                    TwoLineListItem(text=os.path.basename(item), secondary_text=item, secondary_font_style="Overline",
+                                    on_press=remove_me))
+
+    def add_item_popup(self):
+        def terminate(*args):
+            pop.dismiss()
+            self.run_list.append(str(pop_tf.text))
+            self.fill_list(type="items")
+
+        pop = MDDialog(size_hint=(0.5, 0.25), text="add the value here",
+                       buttons=[MDFlatButton(text="Add", on_press=terminate)])
+        pop_tf = MDTextField(size_hint=(0.5, 1))
+        pop.add_widget(pop_tf)
+        pop.open()
+
+    def add_img(self):
+        path = askdirectory(mustexist=True)
+        self.img_path_list.append(path)
+        self.fill_list(type="images")
+
+    def remove_item_from_list(self):
+        if self.remove_tool_items:
+            self.remove_tool_items = False
+            self.ids.list_remove_btn.icon = "radiobox-blank"
+        else:
+            self.remove_tool_items = True
+            self.ids.list_remove_btn.icon = "radiobox-marked"
+
+    def remove_img_from_list(self):
+        if self.remove_tool_images:
+            self.remove_tool_images = False
+            self.ids.list_img_remove_btn.icon = "radiobox-blank"
+        else:
+            self.remove_tool_images = True
+            self.ids.list_img_remove_btn.icon = "radiobox-marked"
 
     def data_integrity(self, instance, first_time=False, path=None):
         if instance == "1":
@@ -131,17 +216,14 @@ class AppMainScreen(MDBottomNavigationItem):
             self.ids.zip_directory_alert.icon = "check"
             self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
 
-    def disable_send(self, *args):
-        if self.dir_textfield_alert.disabled:
-            self.send_btn.set_disabled(True)
-
-    def get_version(self, type):
-        parser = Dispatch("Scripting.FileSystemObject")
-        version = parser.GetFileVersion(f'{self.software_dir}\\{type}')
-        self.ids.version_lab.text = f"SW version: {str(version)}"
+    def get_version(self, sw_type):
+        langs = win32api.GetFileVersionInfo(f'{self.software_dir}\\{sw_type}', r'\VarFileInfo\Translation')
+        key = r'StringFileInfo\%04x%04x\ProductVersion' % (langs[0][0], langs[0][1])
+        ver = (win32api.GetFileVersionInfo(f'{self.software_dir}\\{sw_type}', key))
+        self.ids.version_lab.text = f"SW version: {str(ver)}"
 
     def send_data(self):
-        if not self.ids.zip_directory_alert.disabled or not self.ids.sw_directory_alert.disabled:
+        if self.ids.zip_directory_alert.icon == "alert" or self.ids.sw_directory_alert.icon == "alert":
             DefiPopup("Missing important data! look for the alert to see where the problem might be...").open()
             return
         self.json_file['software']['spotweld_dir'] = self.ids.sw_directory_tf.text
@@ -156,6 +238,7 @@ class AppMainScreen(MDBottomNavigationItem):
         json_file.close()
         zip_obj = zipfile.ZipFile(self.ids.zip_directory_tf.text + "\\output_zip.zip", 'w')
         zip_obj.write("output\\data.json")
+        self.error_list.clear()
         for item in self.run_list:
             try:
                 zip_obj.write(os.path.join(self.software_dir, item))
@@ -164,6 +247,11 @@ class AppMainScreen(MDBottomNavigationItem):
 
         zip_obj.close()
         toast(f"File created at {self.output_dir}")
+        pop = Popup(title="Missing Items!",size_hint=(0.5,0.3))
+        lb = MDLabel(
+            text=f"Zip file was created but there are som missing items!\nhere is a list of missing files: {self.error_list}")
+        pop.add_widget(lb)
+        pop.open()
 
     def remove_advance(self, active):
         if not active:
@@ -172,12 +260,16 @@ class AppMainScreen(MDBottomNavigationItem):
             self.remove_widget(self.ids.bug_msg_tf)
             self.remove_widget(self.ids.version_lab)
             self.remove_widget(self.ids.sw_sub_lab)
+            self.remove_widget(self.ids.item_list_layout)
+            self.remove_widget(self.ids.img_list_layout)
         else:
             self.ids.advance_switch_label.text = "Advance Mode"
             self.add_widget(self.ids.bug_title_tf)
             self.add_widget(self.ids.bug_msg_tf)
             self.add_widget(self.ids.version_lab)
             self.add_widget(self.ids.sw_sub_lab)
+            self.add_widget(self.ids.item_list_layout)
+            self.add_widget(self.ids.img_list_layout)
 
 
 class MainApp(MDApp):

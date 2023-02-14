@@ -16,8 +16,9 @@
         helper_text: "Write more details about the issues"
         helper_text_mode: "on_focus"
         multiline: True
-        pos_hint: {'x': 0.02, 'y': 0.25}
-        size_hint: 0.7, None
+        pos_hint: {'x': 0.02, 'y': 0.05}
+        size_hint: 0.6, None
+        font_size: 16
 
     MDTextField:
         id: sw_directory_tf
@@ -48,14 +49,80 @@
     MDLabel:
         id: version_lab
         text: "SW version: "
-        pos_hint: {'x': 0.43, 'y': 0.65}
-        size_hint: 0.21, None
+        pos_hint: {'x': 0.65, 'y': 0.74}
+        size_hint: 0.3, None
 
     MDLabel:
         id: sw_sub_lab
         text: "SW Type: "
-        pos_hint: {'x': 0.43, 'y': 0.58}
-        size_hint: 0.21, None
+        pos_hint: {'x': 0.65, 'y': 0.78}
+        size_hint: 0.25, None
+
+    FloatLayout:
+        id: item_list_layout
+        pos_hint: {'x': 0.65, 'y': 0.45}
+        size_hint:0.3,0.3
+
+        MDLabel:
+            text: "Files included"
+            pos_hint:{'x': 0,'y': 0.5}
+            font_style: "H6"
+
+        MDScrollView:
+            size_hint:1,0.65
+            pos_hint:{'x': 0,'y': 0.3}
+            id: item_scroll_view
+            MDList:
+                id: run_item_list
+
+
+        MDRectangleFlatButton:
+            id: list_add_btn
+            text:"Add"
+            size_hint:0.5,0.1
+            pos_hint: {'x':0,'y':0}
+            on_press:root.add_item_popup()
+
+        MDRectangleFlatIconButton:
+            id: list_remove_btn
+            text: "Remove"
+            size_hint:0.5,0.1
+            pos_hint: {'x':0.5,'y':0}
+            icon: "radiobox-blank"
+            on_press:root.remove_item_from_list()
+
+
+    FloatLayout:
+        id: img_list_layout
+        pos_hint: {'x': 0.65, 'y': 0.1}
+        size_hint:0.3,0.25
+
+        MDLabel:
+            text: "attach Images"
+            pos_hint:{'x': 0,'y': 0.5}
+            font_style: "H6"
+
+        MDScrollView:
+            id: img_scroll_view
+            size_hint:1,0.65
+            pos_hint:{'x': 0,'y': 0.3}
+            MDList:
+                id:run_img_list
+
+        MDRectangleFlatButton:
+            id: list_img_add_btn
+            text:"Add"
+            size_hint:0.5,0.1
+            pos_hint: {'x':0,'y':0}
+            on_press:root.add_img()
+
+        MDRectangleFlatIconButton:
+            id: list_img_remove_btn
+            text: "Remove"
+            size_hint:0.5,0.1
+            pos_hint: {'x':0.5,'y':0}
+            icon: "radiobox-blank"
+            on_press:root.remove_img_from_list()
 
     ToolTipIcon:
         id: zip_directory_alert
@@ -82,13 +149,13 @@
     MDRectangleFlatButton:
         id: send_data_btn
         text: "send"
-        pos_hint: {'x': 0.9, 'y': 0.1}
+        pos_hint: {'x': 0.9, 'y': 0.01}
         on_press: root.send_data()
 
     MDSwitch:
         id: advance_switch
         width: dp(40)
-        pos_hint: {'x': .65,'y': .85}
+        pos_hint: {'x': .65,'y': .9}
         thumb_color_inactive: "grey"
         active: True
         on_active: root.remove_advance(self.active)
@@ -96,4 +163,4 @@
     MDLabel:
         id: advance_switch_label
         text: "Advance Mode"
-        pos_hint: {'x': .73,'y': .395}
+        pos_hint: {'x': .73,'y': .445}
