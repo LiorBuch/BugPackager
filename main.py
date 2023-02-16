@@ -1,6 +1,7 @@
 import json
 import os.path
 import shutil
+import sys
 from tkinter.filedialog import askdirectory, askopenfile
 import zipfile
 import win32api
@@ -8,6 +9,7 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import partial
+from kivy.resources import resource_add_path
 from kivy.uix.popup import Popup
 from kivymd.toast import toast
 from kivy.uix.screenmanager import ScreenManager
@@ -349,4 +351,10 @@ def process_kill():
 
 
 if __name__ == '__main__':
-    MainApp().run()
+    try:
+        if hasattr(sys, '_MEIPASS'):
+            resource_add_path(os.path.join(sys._MEIPASS))
+        MainApp().run()
+    except Exception as e:
+        print(e)
+        input("Press enter.")
