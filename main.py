@@ -1,7 +1,8 @@
 import json
 import os.path
+import shutil
 import time
-from tkinter.filedialog import askdirectory
+from tkinter.filedialog import askdirectory, askopenfile
 import zipfile
 
 import win32api
@@ -165,8 +166,9 @@ class AppMainScreen(MDBottomNavigationItem):
         pop.open()
 
     def add_img(self):
-        path = askdirectory(mustexist=True)
-        self.img_path_list.append(path)
+        path = askopenfile(filetypes=[("Image Files",'.png .bmp .jpeg .jpg')])
+        if path is not None:
+            self.img_path_list.append(path.name)
         self.fill_list(type="images")
 
     def remove_item_from_list(self):
@@ -237,13 +239,18 @@ class AppMainScreen(MDBottomNavigationItem):
         json_file.write(json_str)
         json_file.close()
         zip_obj = zipfile.ZipFile(self.ids.zip_directory_tf.text + "\\output_zip.zip", 'w')
-        zip_obj.write("output\\data.json")
         self.error_list.clear()
         for item in self.run_list:
             try:
                 zip_obj.write(os.path.join(self.software_dir, item))
             except:
                 self.error_list.append(f"{item} not found")
+        for img in self.img_path_list:
+            shutil.copyfile(img,f"output\\{os.path.basename(img)}")
+        for path,name,dir in os.walk("output"):
+            for item in dir:
+                zip_obj.write("output\\"+str(item))
+                os.remove("output\\"+str(item))
 
         zip_obj.close()
         toast(f"File created at {self.output_dir}")
