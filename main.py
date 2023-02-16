@@ -258,10 +258,12 @@ class AppMainScreen(MDBottomNavigationItem):
                 self.error_list.append(f"{item} not found")
         for img in self.img_path_list:
             shutil.copyfile(img, f"output\\{os.path.basename(img)}")
+
         for path, name, dir in os.walk("output"):
             for item in dir:
-                zip_obj.write("output\\" + str(item))
-                os.remove("output\\" + str(item))
+                if item != "alive.txt":
+                    zip_obj.write("output\\" + str(item))
+                    os.remove("output\\" + str(item))
 
         zip_obj.close()
         toast(f"File created at {self.output_dir}")

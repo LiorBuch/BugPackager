@@ -1,16 +1,1 @@
-{
-  "software": {
-    "spotweld_dir": "C:/Program Files (x86)/ScanMaster/SpotWeld",
-    "output_dir": "C:/Users/liorb/Desktop"
-  },
-  "user_data": {
-    "username": "lior",
-    "company": "Company ggg",
-    "email": "my@email.com",
-    "palette": "Blue",
-    "theme": "Light",
-    "active_check": "light_theme_check",
-    "run_list_adv": [],
-    "lang": "en-us"
-  }
-}
+{"software": {"spotweld_dir": "C:/Program Files (x86)/ScanMaster/SpotWeld", "output_dir": "C:/Users/liorb/Desktop"}, "user_data": {"username": "lior", "company": "Company ggg", "email": "my@email.com", "palette": "Blue", "theme": "Light", "active_check": "light_theme_check", "run_list_adv": [], "lang": "en-us"}}
