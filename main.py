@@ -1,17 +1,14 @@
 import json
 import os.path
 import shutil
-import time
 from tkinter.filedialog import askdirectory, askopenfile
 import zipfile
-
 import win32api
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import partial
 from kivy.uix.popup import Popup
-from kivy.uix.scrollview import ScrollView
 from kivymd.toast import toast
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
@@ -20,10 +17,8 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.label import MDIcon, MDLabel
 from kivymd.uix.list import OneLineListItem, OneLineIconListItem, IconLeftWidget, TwoLineListItem
-from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.tooltip import MDTooltip
-from win32com.client import Dispatch
 
 DEFAULT_RUN_LIST = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
 
@@ -49,12 +44,12 @@ class ItemLine(OneLineIconListItem):
 class ToolTipIcon(MDIcon, MDTooltip):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-    def tool_tip_control(self,state):
-        if self.icon == "check":
-            self.tooltip_text = MainApp.get_running_app().load_lang("tooltip_text_ok",state)
-        elif self.icon == "alert":
-            self.tooltip_text = MainApp.get_running_app().load_lang("tooltip_text",state)
 
+    def tool_tip_control(self, state):
+        if self.icon == "check":
+            self.tooltip_text = MainApp.get_running_app().load_lang("tooltip_text_ok", state)
+        elif self.icon == "alert":
+            self.tooltip_text = MainApp.get_running_app().load_lang("tooltip_text", state)
 
 
 class ToolTipLabel(MDLabel, MDTooltip):
