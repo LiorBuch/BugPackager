@@ -20,6 +20,7 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.label import MDIcon, MDLabel
 from kivymd.uix.list import OneLineListItem, OneLineIconListItem, IconLeftWidget, TwoLineListItem
+from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.tooltip import MDTooltip
 from win32com.client import Dispatch
@@ -59,6 +60,11 @@ class DefiPopup(MDDialog):
     def __init__(self, msg, btn_text="close", **kwargs):
         super().__init__(**kwargs, buttons=[MDFlatButton(text=btn_text, on_press=lambda x: self.dismiss())])
         self.text = msg
+
+
+class HelpDialog(MDDialog):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs, buttons=[MDFlatButton(text="Close", on_press=lambda x: self.dismiss())])
 
 
 class ContactWindow(MDBottomNavigationItem):
@@ -113,12 +119,14 @@ class AppMainScreen(MDBottomNavigationItem):
         self.software_dir = self.json_file['software']['spotweld_dir']
         self.output_dir = self.json_file['software']['output_dir']
         Builder.load_file("app_main_screen.kv")
+        Builder.load_file("help_ui.kv")
         self.error_list = []
         self.run_list = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
         self.img_path_list = []
         self.sw_type = "none"
         self.remove_tool_items = False
         self.remove_tool_images = False
+        self.help_center = HelpDialog()
         Clock.schedule_once(partial(self.data_integrity, "1"))
         Clock.schedule_once(partial(self.data_integrity, "2"))
         Clock.schedule_once(self.fill_list)
@@ -166,7 +174,7 @@ class AppMainScreen(MDBottomNavigationItem):
         pop.open()
 
     def add_img(self):
-        path = askopenfile(filetypes=[("Image Files",'.png .bmp .jpeg .jpg')])
+        path = askopenfile(filetypes=[("Image Files", '.png .bmp .jpeg .jpg')])
         if path is not None:
             self.img_path_list.append(path.name)
         self.fill_list(type="images")
@@ -246,15 +254,15 @@ class AppMainScreen(MDBottomNavigationItem):
             except:
                 self.error_list.append(f"{item} not found")
         for img in self.img_path_list:
-            shutil.copyfile(img,f"output\\{os.path.basename(img)}")
-        for path,name,dir in os.walk("output"):
+            shutil.copyfile(img, f"output\\{os.path.basename(img)}")
+        for path, name, dir in os.walk("output"):
             for item in dir:
-                zip_obj.write("output\\"+str(item))
-                os.remove("output\\"+str(item))
+                zip_obj.write("output\\" + str(item))
+                os.remove("output\\" + str(item))
 
         zip_obj.close()
         toast(f"File created at {self.output_dir}")
-        pop = Popup(title="Missing Items!",size_hint=(0.5,0.3))
+        pop = Popup(title="Missing Items!", size_hint=(0.5, 0.3))
         lb = MDLabel(
             text=f"Zip file was created but there are som missing items!\nhere is a list of missing files: {self.error_list}")
         pop.add_widget(lb)
@@ -291,6 +299,28 @@ class MainApp(MDApp):
     def build(self):
         return self.kv
 
+    def load_lang(self, field, m_id):
+        current_lang = read_from_json("assets\\meta_data.json", "user_data", "lang")
+        with open("assets\\lang.json", "r") as j_file:
+            lang_dict = json.load(j_file)
+            j_file.close()
+            return lang_dict[m_id][field][current_lang]
+
+    def label_color(self):
+        theme = read_from_json("assets\\meta_data.json", "user_data", "theme")
+        if theme == "Dark":
+            return "white"
+        if theme == "Light":
+            return "black"
+
+    def write_to_json(self, file_to_modify, data_list: list):
+        with open(file_to_modify, "r") as jsonFile:
+            data = json.load(jsonFile)
+            for item in data_list:
+                data[item[0]][item[1]] = item[2]
+        with open(file_to_modify, "w") as jsonFile:
+            json.dump(data, jsonFile)
+
 
 def write_to_json(file_to_modify, data_list: list):
     with open(file_to_modify, "r") as jsonFile:
@@ -311,6 +341,7 @@ def process_kill():
     Builder.unload_file("app_main_screen.kv")
     Builder.unload_file("main_ui.kv")
     Builder.unload_file("contact_screen.kv")
+    Builder.unload_file("help_ui.kv")
     MainApp.get_running_app().stop()
     Window.clear()
     MainApp().run()

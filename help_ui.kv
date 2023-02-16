@@ -1,0 +1,34 @@
+<HelpDialog>:
+    id: help_center_page
+    title: app.load_lang("title","help_center_page")
+    radius: [20, 20, 20, 20]
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    FloatLayout:
+        id: item_list_layout
+        pos_hint: {'x': 0.65, 'y': 0.3}
+        size_hint:0.4,0.5
+
+        MDLabel:
+            id: help_topic_lb
+            text: app.load_lang("text","help_topic_lb")
+            pos_hint:{'x': 0,'y': 0.5}
+            theme_text_color: "Custom"
+            text_color: app.label_color()
+
+        MDScrollView:
+            size_hint:1,0.65
+            pos_hint:{'x': 0,'y': 0.3}
+            id: item_scroll_view
+            MDList:
+                id: run_item_list
+                OneLineListItem:
+                    text: "Quick Mode Tutorial"
+                    font_style: "Body2"
+                OneLineListItem:
+                    text: "Advance Mode Tutorial"
+                    font_style: "Body2"

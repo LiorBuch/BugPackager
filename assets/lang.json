@@ -1,0 +1,124 @@
+{
+  "bug_title_tf": {
+    "hint_text": {
+      "en-us": "Bug Title",
+      "de": "Hauptproblems Titel"
+    },
+    "helper_text": {
+      "en-us": "Write the main issue title",
+      "de": "Schreiben Sie den Titel des Hauptproblems"
+    }
+  },
+  "bug_msg_tf": {
+    "hint_text": {
+      "en-us": "Bug Text",
+      "de": "Hauptproblems Text"
+    },
+    "helper_text": {
+      "en-us": "Write more details about the issue",
+      "de": "Schreiben Sie mehr Details uber das Problem"
+    }
+  },
+  "sw_directory_tf": {
+    "hint_text": {
+      "en-us": "Spotweld Main Directory",
+      "de": "Spotweld Hauptverzeichnis"
+    }
+  },
+  "sw_directory_alert": {
+    "tooltip_text": {
+      "en-us": "SpotWeld was not found in the directory!",
+      "de": "SpotWeld wurde nicht im Verzeichnis gefunden!"
+    }
+  },
+  "zip_directory_tf": {
+    "hint_text": {
+      "en-us": "Zip Output Directory",
+      "de": "Zip Ausgabeverzeichnis"
+    }
+  },
+  "file_included_lb": {
+    "text": {
+      "en-us": "Files included",
+      "de": "Dateien enthalten"
+    }
+  },
+  "list_add_btn": {
+    "text": {
+      "en-us": "Add",
+      "de": "Hinzufugen"
+    }
+  },
+  "list_remove_btn": {
+    "text": {
+      "en-us": "Remove",
+      "de": "Entfernen"
+    }
+  },
+  "attached_images_lb": {
+    "text": {
+      "en-us": "Attached Images",
+      "de": "Angehangte Bilder"
+    }
+  },
+  "list_img_add_btn": {
+    "text": {
+      "en-us": "Add",
+      "de": "Hinzufugen"
+    }
+  },
+  "list_img_remove_btn": {
+    "text": {
+      "en-us": "Remove",
+      "de": "Entfernen"
+    }
+  },
+  "zip_directory_alert": {
+    "tooltip_text": {
+      "en-us": "Directory does not exist!",
+      "de": "Verzeichnis existiert nicht!"
+    }
+  },
+  "sw_directory_btn": {
+    "text": {
+      "en-us": "Choose directory",
+      "de": "Verzeichnis wahlen"
+    }
+  },
+  "zip_directory_btn": {
+    "text": {
+      "en-us": "Choose directory",
+      "de": "Verzeichnis auswahlen"
+    }
+  },
+  "send_data_btn": {
+    "text": {
+      "en-us": "send",
+      "de": "schicken"
+    }
+  },
+  "advance_switch_label": {
+    "text": {
+      "en-us": "Advance Mode",
+      "de": "Erweiterter Modus"
+    }
+  },
+  "lang_select_lb": {
+    "text": {
+      "en-us": "Select Language",
+      "de": "Sprache auswahlen"
+    }
+  },
+  "help_topic_lb": {
+    "text": {
+      "en-us": "Choose Topic",
+      "de": "Thema auswählen"
+    }
+  },
+  "help_center_page": {
+    "title": {
+      "en-us": "Help Center",
+      "de": "Hilfezentrum"
+    }
+  }
+}

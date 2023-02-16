@@ -4,16 +4,16 @@
 
     MDTextField:
         id: bug_title_tf
-        hint_text: "Bug Title"
-        helper_text: "Write the main issue title"
+        hint_text: app.load_lang("hint_text","bug_title_tf")
+        helper_text: app.load_lang("helper_text","bug_title_tf")
         helper_text_mode: "on_focus"
         pos_hint: {'x': 0.02, 'y': 0.7}
         size_hint: 0.3, None
 
     MDTextField:
         id: bug_msg_tf
-        hint_text: "Bug Text"
-        helper_text: "Write more details about the issues"
+        hint_text: app.load_lang("hint_text","bug_msg_tf")
+        helper_text: app.load_lang("helper_text","bug_msg_tf")
         helper_text_mode: "on_focus"
         multiline: True
         pos_hint: {'x': 0.02, 'y': 0.05}
@@ -22,7 +22,7 @@
 
     MDTextField:
         id: sw_directory_tf
-        hint_text: "Spotweld Main Directory"
+        hint_text: app.load_lang("hint_text","sw_directory_tf")
         pos_hint: {'x': 0.02, 'y': 0.9}
         size_hint: 0.3,None
         text : root.software_dir
@@ -35,12 +35,12 @@
         theme_text_color: "Custom"
         text_color: 212 / 255, 34 / 255, 34 / 255, 1
         pos_hint: {'x': 0.35, 'y': 0.93}
-        tooltip_text: "SpotWeld was not found in the directory!"
+        tooltip_text: app.load_lang("tooltip_text","sw_directory_alert")
 
 
     MDTextField:
         id: zip_directory_tf
-        hint_text: "Zip Output Directory"
+        hint_text: app.load_lang("hint_text","zip_directory_tf")
         pos_hint: {'x': 0.02, 'y': 0.8}
         size_hint: 0.3, None
         text: root.output_dir
@@ -51,12 +51,16 @@
         text: "SW version: "
         pos_hint: {'x': 0.65, 'y': 0.74}
         size_hint: 0.3, None
+        theme_text_color: "Custom"
+        text_color: app.label_color()
 
     MDLabel:
         id: sw_sub_lab
         text: "SW Type: "
         pos_hint: {'x': 0.65, 'y': 0.78}
         size_hint: 0.25, None
+        theme_text_color: "Custom"
+        text_color: app.label_color()
 
     FloatLayout:
         id: item_list_layout
@@ -64,9 +68,12 @@
         size_hint:0.3,0.3
 
         MDLabel:
-            text: "Files included"
+            id: file_included_lb
+            text: app.load_lang("text","file_included_lb")
             pos_hint:{'x': 0,'y': 0.5}
             font_style: "H6"
+            theme_text_color: "Custom"
+            text_color: app.label_color()
 
         MDScrollView:
             size_hint:1,0.65
@@ -78,14 +85,14 @@
 
         MDRectangleFlatButton:
             id: list_add_btn
-            text:"Add"
-            size_hint:0.5,0.1
+            text: app.load_lang("text","list_add_btn")
+            size_hint: 0.5,0.1
             pos_hint: {'x':0,'y':0}
-            on_press:root.add_item_popup()
+            on_press: root.add_item_popup()
 
         MDRectangleFlatIconButton:
             id: list_remove_btn
-            text: "Remove"
+            text: app.load_lang("text","list_remove_btn")
             size_hint:0.5,0.1
             pos_hint: {'x':0.5,'y':0}
             icon: "radiobox-blank"
@@ -98,9 +105,12 @@
         size_hint:0.3,0.25
 
         MDLabel:
-            text: "attach Images"
+            id: attached_images_lb
+            text: app.load_lang("text","attached_images_lb")
             pos_hint:{'x': 0,'y': 0.5}
             font_style: "H6"
+            theme_text_color: "Custom"
+            text_color: app.label_color()
 
         MDScrollView:
             id: img_scroll_view
@@ -111,14 +121,14 @@
 
         MDRectangleFlatButton:
             id: list_img_add_btn
-            text:"Add"
+            text: app.load_lang("text","list_img_add_btn")
             size_hint:0.5,0.1
             pos_hint: {'x':0,'y':0}
             on_press:root.add_img()
 
         MDRectangleFlatIconButton:
             id: list_img_remove_btn
-            text: "Remove"
+            text: app.load_lang("text","list_img_remove_btn")
             size_hint:0.5,0.1
             pos_hint: {'x':0.5,'y':0}
             icon: "radiobox-blank"
@@ -131,24 +141,24 @@
         text_color: 212 / 255, 34 / 255, 34 / 255, 1
         pos_hint: {'x': 0.35, 'y': 0.83}
         size_hint:None,None
-        tooltip_text: "Directory is empty!"
+        tooltip_text: app.load_lang("tooltip_text","zip_directory_alert")
 
     MDRectangleFlatButton:
         id: sw_directory_btn
-        text: "Choose directory"
+        text: app.load_lang("text","sw_directory_btn")
         pos_hint: {'x': 0.4, 'y': 0.92}
         on_press: root.spotweld_dir_choose("1")
 
     MDRectangleFlatButton:
         id: zip_directory_btn
-        text: "Choose directory"
+        text: app.load_lang("text","zip_directory_btn")
         pos_hint: {'x': 0.4, 'y': 0.82}
         on_press: root.spotweld_dir_choose("2")
 
 
     MDRectangleFlatButton:
         id: send_data_btn
-        text: "send"
+        text: app.load_lang("text","send_data_btn")
         pos_hint: {'x': 0.9, 'y': 0.01}
         on_press: root.send_data()
 
@@ -162,6 +172,14 @@
 
     MDLabel:
         id: advance_switch_label
-        text: "Advance Mode"
+        text: app.load_lang("text","advance_switch_label")
         theme_text_color: "Custom"
         pos_hint: {'x': .73,'y': .445}
+        theme_text_color: "Custom"
+        text_color: app.label_color()
+
+    MDIconButton:
+        id: help_icon_btn
+        icon: "help"
+        pos_hint: {'x': .93,'y': .9}
+        on_press: root.help_center.open()

@@ -79,3 +79,33 @@
             size_hint: None,None
             size: "25dp", "25dp"
             on_press: root.switch_themes("3")
+
+    FloatLayout:
+        id: lang_list_layout
+        pos_hint: {'x': 0.4, 'y': 0.5}
+        size_hint:0.3,0.25
+
+        MDLabel:
+            id: lang_select_lb
+            text: app.load_lang("text","lang_select_lb")
+            pos_hint:{'x': 0,'y': 0.5}
+            font_style: "H6"
+            theme_text_color: "Custom"
+            text_color: app.label_color()
+
+        MDScrollView:
+            id: lang_scroll_view
+            size_hint:1,0.7
+            pos_hint:{'x': 0,'y': 0.3}
+            MDList:
+                id:lang_list
+                OneLineIconListItem:
+                    text:"English (US)"
+                    on_press: app.write_to_json("assets\\meta_data.json",[["user_data","lang","en-us"]])
+                    IconLeftWidget:
+                        icon: "assets\\icons\\us-flag.png"
+                OneLineIconListItem:
+                    text:"German (Deutschland)"
+                    on_press: app.write_to_json("assets\\meta_data.json",[["user_data","lang","de"]])
+                    IconLeftWidget:
+                        icon: "assets\\icons\\de-flag.png"
