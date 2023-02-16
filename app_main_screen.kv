@@ -36,6 +36,7 @@
         text_color: 212 / 255, 34 / 255, 34 / 255, 1
         pos_hint: {'x': 0.35, 'y': 0.93}
         tooltip_text: app.load_lang("tooltip_text","sw_directory_alert")
+        on_icon: self.tool_tip_control("sw_directory_alert")
 
 
     MDTextField:
@@ -142,6 +143,7 @@
         pos_hint: {'x': 0.35, 'y': 0.83}
         size_hint:None,None
         tooltip_text: app.load_lang("tooltip_text","zip_directory_alert")
+        on_icon: self.tool_tip_control("zip_directory_alert")
 
     MDRectangleFlatButton:
         id: sw_directory_btn

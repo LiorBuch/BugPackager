@@ -49,6 +49,12 @@ class ItemLine(OneLineIconListItem):
 class ToolTipIcon(MDIcon, MDTooltip):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+    def tool_tip_control(self,state):
+        if self.icon == "check":
+            self.tooltip_text = MainApp.get_running_app().load_lang("tooltip_text_ok",state)
+        elif self.icon == "alert":
+            self.tooltip_text = MainApp.get_running_app().load_lang("tooltip_text",state)
+
 
 
 class ToolTipLabel(MDLabel, MDTooltip):

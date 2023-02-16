@@ -5,33 +5,33 @@
     MDTextField:
         id: user_tf
         icon_left: "account"
-        hint_text: "User"
+        hint_text: app.load_lang("hint_text","user_tf")
         pos_hint: {'x':0.01,'y':0.85}
         size_hint: 0.25,None
 
     MDTextField:
         id: company_tf
         icon_left: "domain"
-        hint_text: "Company"
+        hint_text: app.load_lang("hint_text","company_tf")
         pos_hint: {'x':0.01,'y':0.75}
         size_hint: 0.25,None
 
     MDTextField:
         id: email_tf
         icon_left: "email"
-        hint_text: "Email"
+        hint_text: app.load_lang("hint_text","email_tf")
         pos_hint: {'x':0.01,'y':0.65}
         size_hint: 0.3,None
 
     MDLabel:
         id: themes_title_lb
-        text: "GUI Themes:"
+        text: app.load_lang("text","themes_title_lb")
         pos_hint: {'x': 0.03,'y': 0.1}
         font_style: "H6"
 
     MDRectangleFlatButton:
         id: save_changes_btn
-        text: "Save"
+        text: app.load_lang("text","save_changes_btn")
         pos_hint: {'x': 0.8,'y': 0.05}
         on_press:root.save_changes()
 
@@ -39,12 +39,12 @@
         id: check_layout
         cols: 2
         rows: 3
-        size_hint: .1,.1
+        size_hint: .13,.1
         pos_hint: {'center_x': .1, 'center_y': .5}
 
         MDLabel:
             id: light_theme_lb
-            text: "Light"
+            text: app.load_lang("text","light_theme_lb")
 
         MDCheckbox:
             id: light_theme_check
@@ -57,7 +57,7 @@
 
         MDLabel:
             id: dark_theme_lb
-            text: "Dark"
+            text: app.load_lang("text","dark_theme_lb")
 
         MDCheckbox:
             id: dark_theme_check
@@ -70,7 +70,7 @@
 
         MDLabel:
             id: dark_purple_theme_lb
-            text: "Dark 2"
+            text: app.load_lang("text","dark_purple_theme_lb")
 
         MDCheckbox:
             id: dark_purple_theme_check
