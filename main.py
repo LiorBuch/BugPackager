@@ -106,13 +106,12 @@ class ContactWindow(MDBottomNavigationItem):
             write_to_json("assets\\meta_data.json", [["user_data", "palette", "DeepPurple"]])
             write_to_json("assets\\meta_data.json", [["user_data", "theme", "Dark"]])
             write_to_json("assets\\meta_data.json", [["user_data", "active_check", "dark_purple_theme_check"]])
+        app_refresh()
 
     def save_changes(self):
         write_to_json("assets\\meta_data.json", [["user_data", "username", self.ids.user_tf.text]])
         write_to_json("assets\\meta_data.json", [["user_data", "company", self.ids.company_tf.text]])
         write_to_json("assets\\meta_data.json", [["user_data", "email", self.ids.email_tf.text]])
-        if self.ui_flag:
-            process_kill()
 
 
 class AppMainScreen(MDBottomNavigationItem):
@@ -221,13 +220,16 @@ class AppMainScreen(MDBottomNavigationItem):
                 self.ids.sw_sub_lab.text.join("SW Type:")
                 self.sw_type = "none"
         elif instance == "2":
-            if not first_time:
-                self.output_dir = path
-                self.ids.zip_directory_tf.text = path
-                toast(f"Zip directory changed to:{path}")
-                write_to_json("assets\\meta_data.json", [("software", "output_dir", path)])
-            self.ids.zip_directory_alert.icon = "check"
-            self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
+                if not first_time:
+                    self.output_dir = path
+                    self.ids.zip_directory_tf.text = path
+                    toast(f"Zip directory changed to:{path}")
+                    write_to_json("assets\\meta_data.json", [("software", "output_dir", path)])
+                    self.ids.zip_directory_alert.icon = "check"
+                    self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
+                elif os.path.exists(self.output_dir):
+                    self.ids.zip_directory_alert.icon = "check"
+                    self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
 
     def get_version(self, sw_type):
         langs = win32api.GetFileVersionInfo(f'{self.software_dir}\\{sw_type}', r'\VarFileInfo\Translation')
@@ -347,13 +349,12 @@ def read_from_json(file, where_index, what_index):
         return data[where_index][what_index]
 
 
-def process_kill():
+def app_refresh():
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"app_main_screen.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"main_ui.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"contact_screen.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"help_ui.kv"))
     MainApp.get_running_app().stop()
-    Window.clear()
     MainApp().run()
 
 
