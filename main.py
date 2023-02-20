@@ -106,12 +106,12 @@ class ContactWindow(MDBottomNavigationItem):
             write_to_json("assets\\meta_data.json", [["user_data", "palette", "DeepPurple"]])
             write_to_json("assets\\meta_data.json", [["user_data", "theme", "Dark"]])
             write_to_json("assets\\meta_data.json", [["user_data", "active_check", "dark_purple_theme_check"]])
-        app_refresh()
 
     def save_changes(self):
         write_to_json("assets\\meta_data.json", [["user_data", "username", self.ids.user_tf.text]])
         write_to_json("assets\\meta_data.json", [["user_data", "company", self.ids.company_tf.text]])
         write_to_json("assets\\meta_data.json", [["user_data", "email", self.ids.email_tf.text]])
+        app_refresh()
 
 
 class AppMainScreen(MDBottomNavigationItem):
