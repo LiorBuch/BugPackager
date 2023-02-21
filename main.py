@@ -22,7 +22,10 @@ from kivymd.uix.list import OneLineListItem, OneLineIconListItem, IconLeftWidget
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.tooltip import MDTooltip
 
+import help_center_func
+
 DEFAULT_RUN_LIST = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
+VERSION = "1.0.1"
 
 
 class WindowMaster(ScreenManager):
@@ -68,6 +71,13 @@ class DefiPopup(MDDialog):
 class HelpDialog(MDDialog):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, buttons=[MDFlatButton(text="Close", on_press=lambda x: self.dismiss())])
+        self.test = help_center_func.quick_Mode_tutorial
+
+    def begin_tutorial(self,test_name:str):
+        self.dismiss()
+        if test_name == "test":
+            self.test()
+
 
 
 class ContactWindow(MDBottomNavigationItem):
@@ -117,7 +127,7 @@ class ContactWindow(MDBottomNavigationItem):
 class AppMainScreen(MDBottomNavigationItem):
     def __init__(self, **kw):
         super().__init__(**kw)
-        self.json_file = json.load(open(os.path.join(MainApp.get_running_app().exe_loc,"assets\\meta_data.json")))
+        self.json_file = json.load(open(os.path.join(MainApp.get_running_app().exe_loc, "assets\\meta_data.json")))
         self.software_dir = self.json_file['software']['spotweld_dir']
         self.output_dir = self.json_file['software']['output_dir']
         Builder.load_file("app_main_screen.kv")
@@ -220,16 +230,16 @@ class AppMainScreen(MDBottomNavigationItem):
                 self.ids.sw_sub_lab.text.join("SW Type:")
                 self.sw_type = "none"
         elif instance == "2":
-                if not first_time:
-                    self.output_dir = path
-                    self.ids.zip_directory_tf.text = path
-                    toast(f"Zip directory changed to:{path}")
-                    write_to_json("assets\\meta_data.json", [("software", "output_dir", path)])
-                    self.ids.zip_directory_alert.icon = "check"
-                    self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
-                elif os.path.exists(self.output_dir):
-                    self.ids.zip_directory_alert.icon = "check"
-                    self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
+            if not first_time:
+                self.output_dir = path
+                self.ids.zip_directory_tf.text = path
+                toast(f"Zip directory changed to:{path}")
+                write_to_json("assets\\meta_data.json", [("software", "output_dir", path)])
+                self.ids.zip_directory_alert.icon = "check"
+                self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
+            elif os.path.exists(self.output_dir):
+                self.ids.zip_directory_alert.icon = "check"
+                self.ids.zip_directory_alert.text_color = 51 / 255, 194 / 255, 12 / 255, 1
 
     def get_version(self, sw_type):
         langs = win32api.GetFileVersionInfo(f'{self.software_dir}\\{sw_type}', r'\VarFileInfo\Translation')
@@ -243,12 +253,12 @@ class AppMainScreen(MDBottomNavigationItem):
             return
         self.json_file['software']['spotweld_dir'] = self.ids.sw_directory_tf.text
         self.json_file['software']['output_dir'] = self.ids.zip_directory_tf.text
-        with open(os.path.join(MainApp.get_running_app().exe_loc,"assets\\meta_data.json"), "w") as file:
+        with open(os.path.join(MainApp.get_running_app().exe_loc, "assets\\meta_data.json"), "w") as file:
             file.write(json.dumps(self.json_file))
             file.close()
         data = {'title': self.ids.bug_title_tf.text, 'body': self.ids.bug_msg_tf.text}
         json_str = json.dumps(data)
-        json_file = open(os.path.join(MainApp.get_running_app().exe_loc,"output\\data.json"), "w")
+        json_file = open(os.path.join(MainApp.get_running_app().exe_loc, "output\\data.json"), "w")
         json_file.write(json_str)
         json_file.close()
         zip_obj = zipfile.ZipFile(self.ids.zip_directory_tf.text + "\\output_zip.zip", 'w')
@@ -271,7 +281,7 @@ class AppMainScreen(MDBottomNavigationItem):
         toast(f"File created at {self.output_dir}")
         pop = Popup(title="Missing Items!", size_hint=(0.5, 0.3))
         lb = MDLabel(
-            text=f"Zip file was created but there are som missing items!\nhere is a list of missing files: {self.error_list}")
+            text=f"Zip file was created but there are some missing items!\nhere is a list of missing files: {self.error_list}")
         pop.add_widget(lb)
         pop.open()
 
@@ -313,7 +323,7 @@ class MainApp(MDApp):
 
     def load_lang(self, field, m_id):
         current_lang = read_from_json("assets\\meta_data.json", "user_data", "lang")
-        with open(os.path.join(MainApp.get_running_app().exe_loc,"assets\\lang.json"), "r") as j_file:
+        with open(os.path.join(MainApp.get_running_app().exe_loc, "assets\\lang.json"), "r") as j_file:
             lang_dict = json.load(j_file)
             j_file.close()
             return lang_dict[m_id][field][current_lang]
@@ -326,7 +336,7 @@ class MainApp(MDApp):
             return "black"
 
     def write_to_json(self, file_to_modify, data_list: list):
-        with open(os.path.join(MainApp.get_running_app().exe_loc,file_to_modify), "r") as jsonFile:
+        with open(os.path.join(MainApp.get_running_app().exe_loc, file_to_modify), "r") as jsonFile:
             data = json.load(jsonFile)
             for item in data_list:
                 data[item[0]][item[1]] = item[2]
@@ -335,25 +345,25 @@ class MainApp(MDApp):
 
 
 def write_to_json(file_to_modify, data_list: list):
-    with open(os.path.join(MainApp.get_running_app().exe_loc,file_to_modify), "r") as jsonFile:
+    with open(os.path.join(MainApp.get_running_app().exe_loc, file_to_modify), "r") as jsonFile:
         data = json.load(jsonFile)
         for item in data_list:
             data[item[0]][item[1]] = item[2]
-    with open(os.path.join(MainApp.get_running_app().exe_loc,file_to_modify), "w") as jsonFile:
+    with open(os.path.join(MainApp.get_running_app().exe_loc, file_to_modify), "w") as jsonFile:
         json.dump(data, jsonFile)
 
 
 def read_from_json(file, where_index, what_index):
-    with open(os.path.join(MainApp.get_running_app().exe_loc,file), "r") as jsonFile:
+    with open(os.path.join(MainApp.get_running_app().exe_loc, file), "r") as jsonFile:
         data = json.load(jsonFile)
         return data[where_index][what_index]
 
 
 def app_refresh():
-    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"app_main_screen.kv"))
-    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"main_ui.kv"))
-    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"contact_screen.kv"))
-    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc,"help_ui.kv"))
+    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "app_main_screen.kv"))
+    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "main_ui.kv"))
+    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "contact_screen.kv"))
+    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "help_ui.kv"))
     MainApp.get_running_app().stop()
     MainApp().run()
 
