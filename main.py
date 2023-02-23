@@ -71,13 +71,12 @@ class DefiPopup(MDDialog):
 class HelpDialog(MDDialog):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, buttons=[MDFlatButton(text="Close", on_press=lambda x: self.dismiss())])
-        self.test = help_center_func.quick_Mode_tutorial
+        self.test = help_center_func.quick_mode_tutorial
 
-    def begin_tutorial(self,test_name:str):
+    def begin_tutorial(self, test_name: str):
         self.dismiss()
         if test_name == "test":
             self.test()
-
 
 
 class ContactWindow(MDBottomNavigationItem):
@@ -132,6 +131,7 @@ class AppMainScreen(MDBottomNavigationItem):
         self.output_dir = self.json_file['software']['output_dir']
         Builder.load_file("app_main_screen.kv")
         Builder.load_file("help_ui.kv")
+        Builder.load_file("info_popup_ui.kv")
         self.error_list = []
         self.run_list = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
         self.img_path_list = []
