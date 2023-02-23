@@ -90,7 +90,7 @@
   "sw_directory_btn": {
     "text": {
       "en-us": "Choose directory",
-      "de": "Verzeichnis wahlen"
+      "de": "Verzeichnis auswahlen"
     }
   },
   "zip_directory_btn": {
@@ -106,9 +106,13 @@
     }
   },
   "advance_switch_label": {
-    "text": {
+    "text-active": {
       "en-us": "Advance Mode",
       "de": "Erweiterter Modus"
+    },
+    "text-inactive": {
+      "en-us": "Quick Mode",
+      "de": "Schneller Modus"
     }
   },
   "lang_select_lb": {
@@ -120,7 +124,7 @@
   "help_topic_lb": {
     "text": {
       "en-us": "Choose Topic",
-      "de": "Thema auswählen"
+      "de": "Thema auswahlen"
     }
   },
   "help_center_page": {
@@ -175,6 +179,36 @@
     "text": {
       "en-us": "Dark 2",
       "de": "Dunkel 2"
+    }
+  },
+  "close_btn_general": {
+    "text": {
+      "en-us": "Close",
+      "de": "Schliessen"
+    }
+  },
+  "quick_mode_tutorial_item": {
+    "text": {
+      "en-us": "Quick Mode Tutorial",
+      "de": "Schnellmodus Tutorial"
+    }
+  },
+  "advance_mode_tutorial_item": {
+    "text": {
+      "en-us": "Advance Mode Tutorial",
+      "de": "Lernprogramm für den erweiterten Modus"
+    }
+  },
+  "quick_mode_walk_through_item": {
+    "text": {
+      "en-us": "Quick Mode walk through",
+      "de": "Gehen Sie durch den Schnellmodus"
+    }
+  },
+  "advance_mode_walk_through_item": {
+    "text": {
+      "en-us": "Advance Mode walk through",
+      "de": "Gehen Sie durch den Fortschrittsmodus"
     }
   }
 }

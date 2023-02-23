@@ -64,13 +64,14 @@ class ToolTipLabel(MDLabel, MDTooltip):
 
 class DefiPopup(MDDialog):
     def __init__(self, msg, btn_text="close", **kwargs):
+        btn_text = MainApp.get_running_app().load_lang("text", "close_btn_general")
         super().__init__(**kwargs, buttons=[MDFlatButton(text=btn_text, on_press=lambda x: self.dismiss())])
         self.text = msg
 
 
 class HelpDialog(MDDialog):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs, buttons=[MDFlatButton(text="Close", on_press=lambda x: self.dismiss())])
+        super().__init__(**kwargs, buttons=[MDFlatButton(text=MainApp.get_running_app().load_lang("text", "close_btn_general"), on_press=lambda x: self.dismiss())])
         self.test = help_center_func.quick_mode_tutorial
 
     def begin_tutorial(self, test_name: str):
@@ -287,7 +288,7 @@ class AppMainScreen(MDBottomNavigationItem):
 
     def remove_advance(self, active):
         if not active:
-            self.ids.advance_switch_label.text = "Quick Mode"
+            self.ids.advance_switch_label.text = MainApp.get_running_app().load_lang("text-inactive","advance_switch_label")
             self.remove_widget(self.ids.bug_title_tf)
             self.remove_widget(self.ids.bug_msg_tf)
             self.remove_widget(self.ids.version_lab)
@@ -295,7 +296,7 @@ class AppMainScreen(MDBottomNavigationItem):
             self.remove_widget(self.ids.item_list_layout)
             self.remove_widget(self.ids.img_list_layout)
         else:
-            self.ids.advance_switch_label.text = "Advance Mode"
+            self.ids.advance_switch_label.text = MainApp.get_running_app().load_lang("text-active","advance_switch_label")
             self.add_widget(self.ids.bug_title_tf)
             self.add_widget(self.ids.bug_msg_tf)
             self.add_widget(self.ids.version_lab)

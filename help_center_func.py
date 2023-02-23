@@ -30,5 +30,8 @@ class InfoPopup(Popup):
 
 
 def quick_mode_tutorial():
-    pop = InfoPopup(en_us.LIST_OF_PAGES)
+    pop = InfoPopup(en_us.LIST_OF_PAGES_QUICK_TUT)
     pop.open()
+
+def advance_mode_tutorial():
+    pop = InfoPopup(en_us)
