@@ -9,7 +9,6 @@ class InfoPopup(Popup):
     def __init__(self, total_pages: list, **kwargs):
         super().__init__(**kwargs)
         self.overlay_color = (0, 0, 0, 0)
-        # self.background_color = 0,0,0,1
         self.size_hint = 0.6, 0.4
         self.total_pages = total_pages
         self.step = 1
