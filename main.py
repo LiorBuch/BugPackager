@@ -353,4 +353,11 @@ def app_refresh():
     MainApp().run()
 
 
-MainApp().run()
+if __name__ == '__main__':
+    try:
+        if hasattr(sys, '_MEIPASS'):
+            resource_add_path(os.path.join(sys._MEIPASS))
+        MainApp().run()
+    except Exception as e:
+        print(e)
+        input("Press enter.")
