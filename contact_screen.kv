@@ -1,3 +1,5 @@
+#: import write_to_json global_funcs.write_to_json
+
 <ContactWindow>:
     id: contact_tab
     icon: "account-tie"
@@ -101,11 +103,11 @@
                 id:lang_list
                 OneLineIconListItem:
                     text:"English (US)"
-                    on_press: app.write_to_json("assets\\meta_data.json",[["user_data","lang","en-us"]])
+                    on_press: write_to_json("assets\\meta_data.json",[["user_data","lang","en-us"]])
                     IconLeftWidget:
                         icon: "assets\\icons\\us-flag.png"
                 OneLineIconListItem:
                     text:"German (Deutschland)"
-                    on_press: app.write_to_json("assets\\meta_data.json",[["user_data","lang","de"]])
+                    on_press: write_to_json("assets\\meta_data.json",[["user_data","lang","de"]])
                     IconLeftWidget:
                         icon: "assets\\icons\\de-flag.png"

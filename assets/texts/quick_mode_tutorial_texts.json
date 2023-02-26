@@ -1,0 +1,12 @@
+{
+  "en-us": [
+    "The Main Directory lets you define where the spotweld can be found,if the software didnt found spotweld in there we will let you know.",
+    "The Zip output is where the output zip file can be found",
+    "And that's all!"
+  ],
+  "de": [
+    "Im Hauptverzeichnis konnen Sie festlegen, wo der Schweisspunkt zu finden ist. Wenn die Software den Schweisspunkt dort nicht gefunden hat, werden wir Sie daruber informieren.",
+    "Die Zip-Ausgabe ist der Ort, an dem die Ausgabe-Zip-Datei gefunden werden kann",
+    "Und das ist alles!"
+  ]
+}

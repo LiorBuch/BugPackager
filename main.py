@@ -23,6 +23,7 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.tooltip import MDTooltip
 
 import help_center_func
+from global_funcs import read_from_json, write_to_json
 
 DEFAULT_RUN_LIST = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
 VERSION = "1.0.1"
@@ -63,7 +64,7 @@ class ToolTipLabel(MDLabel, MDTooltip):
 
 
 class DefiPopup(MDDialog):
-    def __init__(self, msg, btn_text="close", **kwargs):
+    def __init__(self, msg, **kwargs):
         btn_text = MainApp.get_running_app().load_lang("text", "close_btn_general")
         super().__init__(**kwargs, buttons=[MDFlatButton(text=btn_text, on_press=lambda x: self.dismiss())])
         self.text = msg
@@ -71,13 +72,15 @@ class DefiPopup(MDDialog):
 
 class HelpDialog(MDDialog):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs, buttons=[MDFlatButton(text=MainApp.get_running_app().load_lang("text", "close_btn_general"), on_press=lambda x: self.dismiss())])
-        self.test = help_center_func.quick_mode_tutorial
+        super().__init__(**kwargs, buttons=[
+            MDFlatButton(text=MainApp.get_running_app().load_lang("text", "close_btn_general"),
+                         on_press=lambda x: self.dismiss())])
+        self.quick_tut = help_center_func.quick_mode_tutorial
 
     def begin_tutorial(self, test_name: str):
         self.dismiss()
-        if test_name == "test":
-            self.test()
+        if test_name == "quick_tut":
+            self.quick_tut(MainApp.get_running_app().app_lang)
 
 
 class ContactWindow(MDBottomNavigationItem):
@@ -288,7 +291,8 @@ class AppMainScreen(MDBottomNavigationItem):
 
     def remove_advance(self, active):
         if not active:
-            self.ids.advance_switch_label.text = MainApp.get_running_app().load_lang("text-inactive","advance_switch_label")
+            self.ids.advance_switch_label.text = MainApp.get_running_app().load_lang("text-inactive",
+                                                                                     "advance_switch_label")
             self.remove_widget(self.ids.bug_title_tf)
             self.remove_widget(self.ids.bug_msg_tf)
             self.remove_widget(self.ids.version_lab)
@@ -296,7 +300,8 @@ class AppMainScreen(MDBottomNavigationItem):
             self.remove_widget(self.ids.item_list_layout)
             self.remove_widget(self.ids.img_list_layout)
         else:
-            self.ids.advance_switch_label.text = MainApp.get_running_app().load_lang("text-active","advance_switch_label")
+            self.ids.advance_switch_label.text = MainApp.get_running_app().load_lang("text-active",
+                                                                                     "advance_switch_label")
             self.add_widget(self.ids.bug_title_tf)
             self.add_widget(self.ids.bug_msg_tf)
             self.add_widget(self.ids.version_lab)
@@ -315,6 +320,7 @@ class MainApp(MDApp):
             self.exe_loc = os.path.dirname(os.path.realpath(__file__))
         self.title = "Bug Packager"
         self.kv = Builder.load_file("main_ui.kv")
+        self.app_lang = read_from_json("assets\\meta_data.json", "user_data", "lang")
         self.theme_cls.theme_style_switch_animation = True
         self.theme_cls.theme_style = read_from_json("assets\\meta_data.json", "user_data", "theme")
         self.theme_cls.primary_palette = read_from_json("assets\\meta_data.json", "user_data", "palette")
@@ -336,44 +342,15 @@ class MainApp(MDApp):
         if theme == "Light":
             return "black"
 
-    def write_to_json(self, file_to_modify, data_list: list):
-        with open(os.path.join(MainApp.get_running_app().exe_loc, file_to_modify), "r") as jsonFile:
-            data = json.load(jsonFile)
-            for item in data_list:
-                data[item[0]][item[1]] = item[2]
-        with open(file_to_modify, "w") as jsonFile:
-            json.dump(data, jsonFile)
-
-
-def write_to_json(file_to_modify, data_list: list):
-    with open(os.path.join(MainApp.get_running_app().exe_loc, file_to_modify), "r") as jsonFile:
-        data = json.load(jsonFile)
-        for item in data_list:
-            data[item[0]][item[1]] = item[2]
-    with open(os.path.join(MainApp.get_running_app().exe_loc, file_to_modify), "w") as jsonFile:
-        json.dump(data, jsonFile)
-
-
-def read_from_json(file, where_index, what_index):
-    with open(os.path.join(MainApp.get_running_app().exe_loc, file), "r") as jsonFile:
-        data = json.load(jsonFile)
-        return data[where_index][what_index]
-
 
 def app_refresh():
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "app_main_screen.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "main_ui.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "contact_screen.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "help_ui.kv"))
+    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "info_popup_ui.kv"))
     MainApp.get_running_app().stop()
     MainApp().run()
 
 
-if __name__ == '__main__':
-    try:
-        if hasattr(sys, '_MEIPASS'):
-            resource_add_path(os.path.join(sys._MEIPASS))
-        MainApp().run()
-    except Exception as e:
-        print(e)
-        input("Press enter.")
+MainApp().run()

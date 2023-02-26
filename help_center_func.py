@@ -1,7 +1,8 @@
 # all the funcs for the help center
 from kivy.uix.popup import Popup
 from kivymd.uix.label import MDLabel
-from texts import en_us
+
+import global_funcs
 
 
 class InfoPopup(Popup):
@@ -9,15 +10,15 @@ class InfoPopup(Popup):
         super().__init__(**kwargs)
         self.overlay_color = (0, 0, 0, 0)
         # self.background_color = 0,0,0,1
-        self.size_hint = 0.6, 0.2
+        self.size_hint = 0.6, 0.4
         self.total_pages = total_pages
         self.step = 1
         self.title = f"Step {str(self.step)}/{str(len(self.total_pages))}"
-        self.lb =MDLabel(text=self.total_pages[self.step-1])
+        self.lb = MDLabel(text=self.total_pages[self.step - 1])
         self.content = self.lb
 
     def _progress(self):
-        self.lb.text = self.total_pages[self.step-1]
+        self.lb.text = self.total_pages[self.step - 1]
         self.title = f"Step {self.step}/{len(self.total_pages)}"
 
     def on_touch_down(self, touch):
@@ -29,9 +30,10 @@ class InfoPopup(Popup):
         self._progress()
 
 
-def quick_mode_tutorial():
-    pop = InfoPopup(en_us.LIST_OF_PAGES_QUICK_TUT)
-    pop.open()
+def quick_mode_tutorial(lang):
+    text_list = global_funcs.read_from_json("assets\\texts\\quick_mode_tutorial_texts.json",lang)
+    InfoPopup(text_list).open()
+
 
 def advance_mode_tutorial():
-    pop = InfoPopup(en_us)
+    pass
