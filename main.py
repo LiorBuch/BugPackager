@@ -6,7 +6,6 @@ from tkinter.filedialog import askdirectory, askopenfile
 import zipfile
 import win32api
 from kivy.clock import Clock
-from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import partial
 from kivy.resources import resource_add_path
@@ -26,7 +25,7 @@ import help_center_func
 from global_funcs import read_from_json, write_to_json
 
 DEFAULT_RUN_LIST = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
-VERSION = "1.0.1"
+VERSION = "1.0.3"
 
 
 class WindowMaster(ScreenManager):

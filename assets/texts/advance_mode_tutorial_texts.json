@@ -1,0 +1,15 @@
+{
+  "en-us": [
+    "First lets make sure that Advance mode is toggled ",
+    "The Main Directory lets you define where the spotweld can be found,if the software didnt found spotweld in there we will let you know.",
+    "The Zip output is where the output zip file can be found",
+    ""
+  ],
+  "de": [
+  ],
+  "cords": [
+    [16,542,240.0,63.0],
+    [16,488,240.0,63.0],
+    [720, 65, 85 , 36]
+  ]
+}
