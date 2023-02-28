@@ -80,7 +80,7 @@ class HelpDialog(MDDialog):
     def begin_tutorial(self, test_name: str):
         self.dismiss()
         if test_name == "quick_tut":
-            self.quick_tut(MainApp.get_running_app().app_lang)
+            self.quick_tut(MainApp.get_running_app().app_lang,"quick_mode_tutorial_texts")
 
 
 class ContactWindow(MDBottomNavigationItem):
@@ -194,8 +194,8 @@ class AppMainScreen(MDBottomNavigationItem):
         if path is not None:
             self.img_path_list.append(path.name)
         self.fill_list(type="images")
-        print(self.ids.sw_directory_tf.size)
-        print(self.ids.zip_directory_tf.size)
+        print(self.ids.send_data_btn.pos)
+        print(self.ids.send_data_btn.size)
 
     def remove_item_from_list(self):
         if self.remove_tool_items:

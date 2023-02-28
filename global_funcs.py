@@ -3,6 +3,7 @@ import os
 import sys
 
 prod = True
+nav_bar_height = 60
 if not prod:
     exe_loc = os.path.dirname(sys.executable)
 else:

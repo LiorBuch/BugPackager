@@ -2,21 +2,16 @@
   "en-us": [
     "The Main Directory lets you define where the spotweld can be found,if the software didnt found spotweld in there we will let you know.",
     "The Zip output is where the output zip file can be found",
-    "And that's all!"
-  ],
-  "en-us-cords": [
-    [16,482,240.0,63.0],
-    [16,428,240.0,63.0],
-    [20, 20, 0 , 0]
+    "Press send and that's all!"
   ],
   "de": [
     "Im Hauptverzeichnis konnen Sie festlegen, wo der Schweisspunkt zu finden ist. Wenn die Software den Schweisspunkt dort nicht gefunden hat, werden wir Sie daruber informieren.",
     "Die Zip-Ausgabe ist der Ort, an dem die Ausgabe-Zip-Datei gefunden werden kann",
-    "Und das ist alles!"
+    "Drucken Sie Schicken und das ist alles!"
   ],
-  "de-cords": [
-    [16,482,240.0,63.0],
-    [16,428,240.0,63.0],
-    [20, 20, 0 , 0]
+  "cords": [
+    [16,542,240.0,63.0],
+    [16,488,240.0,63.0],
+    [720, 65, 85 , 36]
   ]
 }

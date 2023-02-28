@@ -39,9 +39,9 @@ class InfoPopup(Popup):
         self._progress()
 
 
-def quick_mode_tutorial(lang):
-    text_list = global_funcs.read_from_json("assets\\texts\\quick_mode_tutorial_texts.json", lang)
-    pt_list = global_funcs.read_from_json("assets\\texts\\quick_mode_tutorial_texts.json", str(lang) + "-cords")
+def quick_mode_tutorial(lang,tutorial_name):
+    text_list = global_funcs.read_from_json(f"assets\\texts\\{tutorial_name}.json", lang)
+    pt_list = global_funcs.read_from_json("assets\\texts\\quick_mode_tutorial_texts.json", "cords")
     InfoPopup(pt_list, text_list).open()
 
 
