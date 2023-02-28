@@ -194,6 +194,8 @@ class AppMainScreen(MDBottomNavigationItem):
         if path is not None:
             self.img_path_list.append(path.name)
         self.fill_list(type="images")
+        print(self.ids.sw_directory_tf.size)
+        print(self.ids.zip_directory_tf.size)
 
     def remove_item_from_list(self):
         if self.remove_tool_items:
