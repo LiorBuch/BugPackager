@@ -130,9 +130,6 @@ class ContactWindow(MDBottomNavigationItem):
         write_to_json("assets\\meta_data.json", [["user_data", "email", self.ids.email_tf.text]])
         app_refresh()
 
-    def change_lang(self,lang):
-        write_to_json("assets\\meta_data.json", [["user_data", "lang", lang]])
-        app_refresh()
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
