@@ -9,7 +9,7 @@ a = Analysis(
     ['main.py'],
     pathex=['C:\\Users\\liorb\\PycharmProjects\\BugPackager\\main.py'],
     binaries=[],
-    datas=[('main_ui.kv','.'),('help_ui.kv','.'),('contact_screen.kv','.'),('app_main_screen.kv','.'),('./assets/','assets'),('./output/','output'),('help_ui.kv','.'),('info_popup_ui.kv','.'),('contact_screen_ui.kv','.')],
+    datas=[('main_ui.kv','.'),('help_ui.kv','.'),('app_main_screen_ui.kv','.'),('./assets/','assets'),('./output/','output'),('help_ui.kv','.'),('info_popup_ui.kv','.'),('contact_screen_ui.kv','.')],
     hiddenimports=[],
     hookspath=[kivymd_hooks_path],
     hooksconfig={},
@@ -44,32 +44,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-)
-VSVersionInfo(
-  ffi=FixedFileInfo(
-    filevers=(6, 1, 7601, 17514),
-    prodvers=(6, 1, 7601, 17514),
-    mask=0x3f,
-    flags=0x0,
-    OS=0x40004,
-    fileType=0x1,
-    subtype=0x0,
-    date=(0, 0)
-    ),
-  kids=[
-    StringFileInfo(
-      [
-      StringTable(
-        u'040904B0',
-        [StringStruct(u'CompanyName', u'Microsoft Corporation'),
-        StringStruct(u'FileDescription', u'Windows Command Processor'),
-        StringStruct(u'FileVersion', u'1.0.1 (win7sp1_rtm.101119-1850)'),
-        StringStruct(u'InternalName', u'cmd'),
-        StringStruct(u'LegalCopyright', u'\xa9 Microsoft Corporation. All rights reserved.'),
-        StringStruct(u'OriginalFilename', u'Cmd.Exe'),
-        StringStruct(u'ProductName', u'Microsoft\xae Windows\xae Operating System'),
-        StringStruct(u'ProductVersion', u'1.0.2')])
-      ]),
-    VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
-  ]
 )
