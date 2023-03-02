@@ -5,7 +5,6 @@ from kivy.lang import Builder
 from kivy.resources import resource_add_path
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
-from kivymd.uix.bottomnavigation import MDBottomNavigationItem
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.label import MDIcon, MDLabel
@@ -14,7 +13,8 @@ from kivymd.uix.tooltip import MDTooltip
 
 import help_center_func
 from app_main_screen import AppMainScreen
-from global_funcs import read_from_json, write_to_json
+from contact_screen import ContactWindow
+from global_funcs import read_from_json
 
 DEFAULT_RUN_LIST = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
 VERSION = "1.1.0"
@@ -87,50 +87,6 @@ class HelpDialog(MDDialog):
             return
 
 
-class ContactWindow(MDBottomNavigationItem):
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self.name = "contact_window"
-        self.ui_flag = False
-        Builder.load_file("contact_screen.kv")
-        self.current_check = read_from_json("assets\\meta_data.json", "user_data", "active_check")
-
-    def on_pre_enter(self, *args):
-        super().on_pre_enter(*args)
-        self.ids.user_tf.text = read_from_json("assets\\meta_data.json", "user_data", "username")
-        self.ids.company_tf.text = read_from_json("assets\\meta_data.json", "user_data", "company")
-        self.ids.email_tf.text = read_from_json("assets\\meta_data.json", "user_data", "email")
-
-    def on_enter(self, *args):
-        super().on_enter(*args)
-        if self.current_check == "light_theme_check":
-            self.ids.light_theme_check.active = True
-        if self.current_check == "dark_theme_check":
-            self.ids.dark_theme_check.active = True
-        if self.current_check == "dark_purple_theme_check":
-            self.ids.dark_purple_theme_check.active = True
-
-    def switch_themes(self, uui):
-        if uui == "1":
-            write_to_json("assets\\meta_data.json", [["user_data", "palette", "Blue"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "theme", "Light"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "active_check", "light_theme_check"]])
-        if uui == "2":
-            write_to_json("assets\\meta_data.json", [["user_data", "palette", "Orange"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "theme", "Dark"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "active_check", "dark_theme_check"]])
-        if uui == "3":
-            write_to_json("assets\\meta_data.json", [["user_data", "palette", "DeepPurple"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "theme", "Dark"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "active_check", "dark_purple_theme_check"]])
-
-    def save_changes(self):
-        write_to_json("assets\\meta_data.json", [["user_data", "username", self.ids.user_tf.text]])
-        write_to_json("assets\\meta_data.json", [["user_data", "company", self.ids.company_tf.text]])
-        write_to_json("assets\\meta_data.json", [["user_data", "email", self.ids.email_tf.text]])
-        app_refresh()
-
-
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -166,7 +122,7 @@ class MainApp(MDApp):
 def app_refresh():
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "app_main_screen_ui.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "main_ui.kv"))
-    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "contact_screen.kv"))
+    Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "contact_screen_ui.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "help_ui.kv"))
     Builder.unload_file(os.path.join(MainApp.get_running_app().exe_loc, "info_popup_ui.kv"))
     MainApp.get_running_app().stop()
