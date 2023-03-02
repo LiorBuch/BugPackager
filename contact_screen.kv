@@ -85,7 +85,7 @@
     FloatLayout:
         id: lang_list_layout
         pos_hint: {'x': 0.4, 'y': 0.5}
-        size_hint:0.3,0.25
+        size_hint:0.4,0.25
 
         MDLabel:
             id: lang_select_lb
@@ -103,11 +103,11 @@
                 id:lang_list
                 OneLineIconListItem:
                     text:"English (US)"
-                    on_press: write_to_json("assets\\meta_data.json",[["user_data","lang","en-us"]])
+                    on_press: root.change_lang("en-us")
                     IconLeftWidget:
                         icon: "assets\\icons\\us-flag.png"
                 OneLineIconListItem:
-                    text:"German (Deutschland)"
-                    on_press: write_to_json("assets\\meta_data.json",[["user_data","lang","de"]])
+                    text: "German (Deutschland)"
+                    on_press: root.change_lang("de")
                     IconLeftWidget:
                         icon: "assets\\icons\\de-flag.png"
