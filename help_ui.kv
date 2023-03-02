@@ -33,10 +33,13 @@
                 OneLineListItem:
                     text: app.load_lang("text","advance_mode_tutorial_item")
                     font_style: "Body2"
+                    on_press: root.begin_tutorial("advance_tut")
                 OneLineListItem:
                     text: app.load_lang("text","quick_mode_walk_through_item")
                     font_style: "Body2"
+                    on_press: root.begin_tutorial("quick_tut_wt")
                 OneLineListItem:
                     text: app.load_lang("text","advance_mode_walk_through_item")
                     font_style: "Body2"
+                    on_press: root.begin_tutorial("advance_tut_wt")
 

@@ -3,13 +3,22 @@
     "First lets make sure that Advance mode is toggled ",
     "The Main Directory lets you define where the spotweld can be found,if the software didnt found spotweld in there we will let you know.",
     "The Zip output is where the output zip file can be found",
-    ""
+    "Here You need to specify the main bug title, as simple as possible",
+    "Here You can provide more details about the bug",
+    "Here You can add the files you want to send, such as logs,DB....",
+    "Here You can add images to be packed with the report",
+    "Press send and that's all!"
   ],
   "de": [
   ],
   "cords": [
+    [520,542,200,48],
     [16,542,240.0,63.0],
     [16,488,240.0,63.0],
+    [16,428,240.0,63.0],
+    [16,68,240.0,63.0],
+    [520,448,240.0,63.0],
+    [520,248,240.0,63.0],
     [720, 65, 85 , 36]
   ]
 }
