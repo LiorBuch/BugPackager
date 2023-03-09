@@ -1,3 +1,6 @@
+from kivy.config import Config
+
+Config.set('graphics', 'resizable', 0)
 import json
 import os.path
 import sys
@@ -10,7 +13,6 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.label import MDIcon, MDLabel
 from kivymd.uix.list import OneLineIconListItem, IconLeftWidget
 from kivymd.uix.tooltip import MDTooltip
-
 import help_center_func
 from app_main_screen import AppMainScreen
 from contact_screen import ContactWindow
@@ -75,7 +77,7 @@ class HelpDialog(MDDialog):
             return
 
         if test_name == "quick_tut_wt":
-            self.quick_tut(MainApp.get_running_app().app_lang, "quick_mode_tutorial_texts",wt=True)
+            self.quick_tut(MainApp.get_running_app().app_lang, "quick_mode_tutorial_texts", wt=True)
             return
 
         if test_name == "advance_tut":
@@ -83,7 +85,7 @@ class HelpDialog(MDDialog):
             return
 
         if test_name == "advance_tut_wt":
-            self.quick_tut(MainApp.get_running_app().app_lang, "advance_mode_tutorial_texts",wt=True)
+            self.quick_tut(MainApp.get_running_app().app_lang, "advance_mode_tutorial_texts", wt=True)
             return
 
 
@@ -101,6 +103,7 @@ class MainApp(MDApp):
         self.theme_cls.theme_style_switch_animation = True
         self.theme_cls.theme_style = read_from_json("assets\\meta_data.json", "user_data", "theme")
         self.theme_cls.primary_palette = read_from_json("assets\\meta_data.json", "user_data", "palette")
+
     def build(self):
         return self.kv
 
@@ -136,4 +139,5 @@ if __name__ == '__main__':
         MainApp().run()
     except Exception as e:
         print(e)
+        print(e.__traceback__)
         input("Press enter.")

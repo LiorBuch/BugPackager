@@ -1,6 +1,10 @@
+import datetime
 import json
 import os
 import sys
+from tkinter.filedialog import askopenfile
+
+from docx import Document
 
 prod = True
 nav_bar_height = 60
@@ -25,3 +29,15 @@ def read_from_json(file, *args):
         for index in args:
             data = data[index]
         return data
+
+
+def create_doc(title, body, company, username):
+    doc = Document()
+    doc.add_heading(f"Bug Report From:{company}")
+    doc.add_paragraph(f"A bug report made by:{username} at:{datetime.date.today()}")
+    doc.add_heading(title, level=1)
+    doc.add_paragraph(body)
+    # doc.add_picture('monty-truth.png')
+    doc.add_page_break()
+    return doc
+    doc.save("output\\temp.docx")

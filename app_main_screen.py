@@ -17,8 +17,8 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.list import TwoLineListItem, OneLineListItem
 from kivymd.uix.textfield import MDTextField
 
-from global_funcs import write_to_json
-
+import global_funcs
+from global_funcs import write_to_json, read_from_json
 
 
 class AppMainScreen(MDBottomNavigationItem):
@@ -26,6 +26,7 @@ class AppMainScreen(MDBottomNavigationItem):
         super().__init__(**kw)
         from main import MainApp
         self.json_file = json.load(open(os.path.join(MainApp.get_running_app().exe_loc, "assets\\meta_data.json")))
+        self.exe_loc = MainApp.get_running_app().exe_loc
         self.software_dir = self.json_file['software']['spotweld_dir']
         self.output_dir = self.json_file['software']['output_dir']
         Builder.load_file("app_main_screen_ui.kv")
@@ -44,7 +45,7 @@ class AppMainScreen(MDBottomNavigationItem):
         Clock.schedule_once(partial(self.data_integrity, "2"))
         Clock.schedule_once(self.fill_list)
 
-    def prevent_touch(self,val):
+    def prevent_touch(self, val):
         if val:
             self.stop_touch_tool = True
         else:
@@ -103,7 +104,6 @@ class AppMainScreen(MDBottomNavigationItem):
         if path is not None:
             self.img_path_list.append(path.name)
         self.fill_list(type="images")
-
 
     def remove_item_from_list(self):
         if self.remove_tool_items:
@@ -172,11 +172,11 @@ class AppMainScreen(MDBottomNavigationItem):
         with open(os.path.join(MainApp.get_running_app().exe_loc, "assets\\meta_data.json"), "w") as file:
             file.write(json.dumps(self.json_file))
             file.close()
-        data = {'title': self.ids.bug_title_tf.text, 'body': self.ids.bug_msg_tf.text}
-        json_str = json.dumps(data)
-        json_file = open(os.path.join(MainApp.get_running_app().exe_loc, "output\\data.json"), "w")
-        json_file.write(json_str)
-        json_file.close()
+        comp = self.json_file['user_data']['company']
+        user = self.json_file['user_data']['username']
+        doc = global_funcs.create_doc(title=self.ids.bug_title_tf.text, body=self.ids.bug_msg_tf.text,
+                                           company=comp, username=user)
+        doc.save(f"{self.exe_loc}\\output\\temp.docx")
         zip_obj = zipfile.ZipFile(self.ids.zip_directory_tf.text + "\\output_zip.zip", 'w')
         self.error_list.clear()
         for item in self.run_list:
@@ -185,9 +185,9 @@ class AppMainScreen(MDBottomNavigationItem):
             except:
                 self.error_list.append(f"{item} not found")
         for img in self.img_path_list:
-            shutil.copyfile(img, f"output\\{os.path.basename(img)}")
+            shutil.copyfile(img, f"{self.exe_loc}\\output\\{os.path.basename(img)}")
 
-        for path, name, dir in os.walk("output"):
+        for path, name, dir in os.walk(f"{self.exe_loc}\\output"):
             for item in dir:
                 if item != "alive.txt":
                     zip_obj.write("output\\" + str(item))
