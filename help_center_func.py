@@ -1,6 +1,5 @@
 # all the funcs for the help center
 from kivy.graphics import Color, Line
-from kivy.properties import NumericProperty
 from kivy.uix.popup import Popup
 from kivymd.toast import toast
 from kivymd.uix.label import MDLabel

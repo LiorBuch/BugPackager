@@ -9,7 +9,7 @@ a = Analysis(
     ['main.py'],
     pathex=['C:\\Users\\liorb\\PycharmProjects\\BugPackager\\main.py'],
     binaries=[],
-    datas=[('main_ui.kv','.'),('help_ui.kv','.'),('app_main_screen_ui.kv','.'),('./assets/','assets'),('./output/','output'),('help_ui.kv','.'),('info_popup_ui.kv','.'),('contact_screen_ui.kv','.')],
+    datas=[('main_ui.kv','.'),('app_db.db','.'),('help_ui.kv','.'),('app_main_screen_ui.kv','.'),('./assets/','assets'),('./output/','output'),('help_ui.kv','.'),('info_popup_ui.kv','.'),('contact_screen_ui.kv','.')],
     hiddenimports=[],
     hookspath=[kivymd_hooks_path],
     hooksconfig={},

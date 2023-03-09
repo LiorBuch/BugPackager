@@ -45,6 +45,8 @@ class AppMainScreen(MDBottomNavigationItem):
         Clock.schedule_once(partial(self.data_integrity, "2"))
         Clock.schedule_once(self.fill_list)
 
+
+
     def prevent_touch(self, val):
         if val:
             self.stop_touch_tool = True

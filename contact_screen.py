@@ -1,22 +1,25 @@
 from kivy.lang import Builder
 from kivymd.uix.bottomnavigation import MDBottomNavigationItem
 
-from global_funcs import write_to_json, read_from_json
+from global_funcs import write_to_json
 
 
 class ContactWindow(MDBottomNavigationItem):
     def __init__(self, **kw):
+        from main import MainApp
+        self.cur = MainApp.get_running_app().cur
+        self.db = MainApp.get_running_app().db
         super().__init__(**kw)
         self.name = "contact_window"
         self.ui_flag = False
         Builder.load_file("contact_screen_ui.kv")
-        self.current_check = read_from_json("assets\\meta_data.json", "user_data", "active_check")
+        self.current_check = self.cur.execute("SELECT active_check FROM userdata").fetchone()[0]
 
     def on_pre_enter(self, *args):
         super().on_pre_enter(*args)
-        self.ids.user_tf.text = read_from_json("assets\\meta_data.json", "user_data", "username")
-        self.ids.company_tf.text = read_from_json("assets\\meta_data.json", "user_data", "company")
-        self.ids.email_tf.text = read_from_json("assets\\meta_data.json", "user_data", "email")
+        self.ids.user_tf.text = self.cur.execute("SELECT username FROM userdata").fetchone()[0]
+        self.ids.company_tf.text = self.cur.execute("SELECT company FROM userdata").fetchone()[0]
+        self.ids.email_tf.text = self.cur.execute("SELECT email FROM userdata").fetchone()[0]
 
     def on_enter(self, *args):
         super().on_enter(*args)
@@ -29,26 +32,31 @@ class ContactWindow(MDBottomNavigationItem):
 
     def switch_themes(self, uui):
         if uui == "1":
-            write_to_json("assets\\meta_data.json", [["user_data", "palette", "Blue"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "theme", "Light"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "active_check", "light_theme_check"]])
+            self.cur.execute("UPDATE userdata SET palette = 'Blue' WHERE id = 1")
+            self.cur.execute("UPDATE userdata SET theme = 'Light' WHERE id = 1")
+            self.cur.execute("UPDATE userdata SET active_check = 'light_theme_check' WHERE id = 1")
         if uui == "2":
-            write_to_json("assets\\meta_data.json", [["user_data", "palette", "Orange"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "theme", "Dark"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "active_check", "dark_theme_check"]])
+            self.cur.execute("UPDATE userdata SET palette = 'Orange' WHERE id = 1")
+            self.cur.execute("UPDATE userdata SET theme = 'Dark' WHERE id = 1")
+            self.cur.execute("UPDATE userdata SET active_check = 'dark_theme_check' WHERE id = 1")
         if uui == "3":
-            write_to_json("assets\\meta_data.json", [["user_data", "palette", "DeepPurple"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "theme", "Dark"]])
-            write_to_json("assets\\meta_data.json", [["user_data", "active_check", "dark_purple_theme_check"]])
-
-    def save_changes(self):
-        write_to_json("assets\\meta_data.json", [["user_data", "username", self.ids.user_tf.text]])
-        write_to_json("assets\\meta_data.json", [["user_data", "company", self.ids.company_tf.text]])
-        write_to_json("assets\\meta_data.json", [["user_data", "email", self.ids.email_tf.text]])
+            self.cur.execute("UPDATE userdata SET palette = 'DeepPurple' WHERE id = 1")
+            self.cur.execute("UPDATE userdata SET theme = 'Dark' WHERE id = 1")
+            self.cur.execute("UPDATE userdata SET active_check = 'dark_purple_theme_check' WHERE id = 1")
+        self.db.commit()
         from main import app_refresh
         app_refresh()
 
-    def change_lang(self,lang):
-        write_to_json("assets\\meta_data.json", [["user_data", "lang", lang]])
+    def save_changes(self):
+        self.cur.execute("UPDATE userdata SET username = ? WHERE id = ?",(self.ids.user_tf.text,1))
+        self.cur.execute("UPDATE userdata SET company = ? WHERE id = ?",(self.ids.company_tf.text,1))
+        self.cur.execute("UPDATE userdata SET email = ? WHERE id = ?",(self.ids.email_tf.text,1))
+        self.db.commit()
+        from main import app_refresh
+        app_refresh()
+
+    def change_lang(self,language):
+        self.cur.execute(f"UPDATE userdata SET lang = ? WHERE id=?",(language,1))
+        self.db.commit()
         from main import app_refresh
         app_refresh()

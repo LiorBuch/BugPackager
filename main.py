@@ -16,14 +16,10 @@ from kivymd.uix.tooltip import MDTooltip
 import help_center_func
 from app_main_screen import AppMainScreen
 from contact_screen import ContactWindow
-from global_funcs import read_from_json
+import sqlite3
 
 DEFAULT_RUN_LIST = ["swd.mdb", "Spotweld2.mdb", "Users.mdb", "BMP", "AScans", "Ref", "Logs"]
 VERSION = "1.1.0"
-
-
-class WindowMaster(ScreenManager):
-    pass
 
 
 class ItemLine(OneLineIconListItem):
@@ -93,29 +89,40 @@ class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.prod = True
+        self.db = sqlite3.connect("app_db.db")
+        self.cur = self.db.cursor()
         if not self.prod:
             self.exe_loc = os.path.dirname(sys.executable)
         else:
             self.exe_loc = os.path.dirname(os.path.realpath(__file__))
         self.title = "Bug Packager"
         self.kv = Builder.load_file("main_ui.kv")
-        self.app_lang = read_from_json("assets\\meta_data.json", "user_data", "lang")
+        self.cur.execute(
+            "CREATE TABLE IF NOT EXISTS userdata (username DEFAULT 'username',company DEFAULT 'company',email DEFAULT 'email',palette DEFAULT 'Blue',theme DEFAULT 'Light',active_check DEFAULT 'light_theme_check',run_list_adv DEFAULT 'none',lang DEFAULT 'en-us',id DEFAULT 1)")
+        self.cur.execute(
+            "CREATE TABLE IF NOT EXISTS software (software_dir DEFAULT 'path',output_dir DEFAULT 'path',id DEFAULT 1)")
+
+        self.app_lang = self.cur.execute("SELECT lang FROM userdata").fetchone()[0]
         self.theme_cls.theme_style_switch_animation = True
-        self.theme_cls.theme_style = read_from_json("assets\\meta_data.json", "user_data", "theme")
-        self.theme_cls.primary_palette = read_from_json("assets\\meta_data.json", "user_data", "palette")
+        self.theme_cls.theme_style = self.cur.execute("SELECT theme FROM userdata").fetchone()[0]
+        self.theme_cls.primary_palette = self.cur.execute("SELECT palette FROM userdata").fetchone()[0]
 
     def build(self):
         return self.kv
 
+    def on_stop(self):
+        super().on_stop()
+        self.db.close()
+
     def load_lang(self, field, m_id):
-        current_lang = read_from_json("assets\\meta_data.json", "user_data", "lang")
+        current_lang = self.cur.execute("SELECT lang FROM userdata").fetchone()[0]
         with open(os.path.join(MainApp.get_running_app().exe_loc, "assets\\lang.json"), "r") as j_file:
             lang_dict = json.load(j_file)
             j_file.close()
             return lang_dict[m_id][field][current_lang]
 
     def label_color(self):
-        theme = read_from_json("assets\\meta_data.json", "user_data", "theme")
+        theme = self.cur.execute("SELECT theme FROM userdata").fetchone()[0]
         if theme == "Dark":
             return "white"
         if theme == "Light":
@@ -139,5 +146,4 @@ if __name__ == '__main__':
         MainApp().run()
     except Exception as e:
         print(e)
-        print(e.__traceback__)
         input("Press enter.")

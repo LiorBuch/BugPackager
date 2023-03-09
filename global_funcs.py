@@ -40,4 +40,3 @@ def create_doc(title, body, company, username):
     # doc.add_picture('monty-truth.png')
     doc.add_page_break()
     return doc
-    doc.save("output\\temp.docx")
